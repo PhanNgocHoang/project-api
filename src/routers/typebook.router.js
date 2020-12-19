@@ -24,8 +24,8 @@ routers.post('/createtypebook', async (req, res, next) => {
 routers.get('/', async (req, res, next) => {
     try {
         const page = parseInt(req.query.page) || 1
-        const perPage = parseInt(req.query.perPage)||5
-        const result = await typesBook(page, perPage)
+        const limit = parseInt(req.query.limit)||5
+        const result = await typesBook(page, limit)
         return res.status(200).json({ data: result })
     } catch (error) {
         next(error)
