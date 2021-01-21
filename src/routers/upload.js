@@ -25,7 +25,7 @@ const upload = multer({storage: storage, limits: {fileSize:1024*1024*10}, fileFi
 routers.post('/images',upload.array('images', 10) , async (req, res, next) => {
     let images = [];
     for(const image of req.files){
-        const imageUrls = await cloudinary.uploader.upload(image.path, {folder: 'food'}, (err, result)=>{
+        const imageUrls = await cloudinary.uploader.upload(image.path, {folder: 'images'}, (err, result)=>{
             if(err) throw new Error(err)
             return result
         })
