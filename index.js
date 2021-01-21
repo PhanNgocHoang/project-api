@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const routers = require('./src/routers/index')
 const mongoose = require('mongoose')
+const passport = require('passport')
 
 
 const PORT = process.env.PORT || 4000
@@ -18,7 +19,8 @@ mongoose.connect('mongodb+srv://admin:Admin123@@cluster0.9m6f6.mongodb.net/eLibr
     }
     console.log("Connection database successfully")
 })
-
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
