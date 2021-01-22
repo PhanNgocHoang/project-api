@@ -7,21 +7,20 @@ module.exports.createTypeBook = (typeName)=>{
     return newTypeBook.save()
 }
 module.exports.typesBook = async (page, perPage) =>{
-     const totalPage = await TypeBook.countDocuments()
+     const totalItems = await TypeBook.countDocuments()
       const skip = (page - 1) * perPage
       const data = await TypeBook.find().skip(skip).limit(perPage)
-      return {data: data, currentPage: page, totalItems: totalPage,  perPage: perPage}
+      return {data: data, currentPage: page, totalItems: totalItems,  perPage: perPage}
 }
 module.exports.getTypeBookDetail = (typeBookId)=>{
     
     return TypeBook.findById(typeBookId)
 }
-module.exports.getBookTypebook = async (typeBookId, page,)=>{
-    const totalPage = await Books.countDocuments({type_book: typeBookId})
-    const perPage = 5
+module.exports.getBookTypebook = async (typeBookId, page, limit)=>{
+    const totalItems = await Books.countDocuments({type_book: typeBookId})
     const skip = (page - 1) * perPage
-    const bookData =  await Books.find({type_book: typeBookId}).populate('author').populate('publishers').skip(skip).limit(perPage)
-    return {data: bookData, currentPage: page, totalPage: totalPage}
+    const bookData =  await Books.find({type_book: typeBookId}).populate('author').populate('publishers').skip(skip).limit(limit)
+    return {data: bookData, currentPage: page, totalItems: totalItems}
 }
 module.exports.updateTypeBook = async (typeBookId, data) =>{
     return TypeBook.updateOne({_id: typeBookId}, data)

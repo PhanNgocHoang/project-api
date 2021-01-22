@@ -55,8 +55,4 @@ routers.post('/pdf', uploadPDF.single('doc'), async (req, res, next) => {
         next(createError(500, error))
     }
 })
-
-
-
-
 module.exports = routers
