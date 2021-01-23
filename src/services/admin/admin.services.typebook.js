@@ -6,10 +6,10 @@ module.exports.createTypeBook = (typeName)=>{
     const newTypeBook = new TypeBook(typeName)
     return newTypeBook.save()
 }
-module.exports.typesBook = async (page, perPage) =>{
+module.exports.typesBook = async (page, perPage, searchKey) =>{
      const totalItems = await TypeBook.countDocuments()
       const skip = (page - 1) * perPage
-      const data = await TypeBook.find().skip(skip).limit(perPage).sort({_id: -1})
+      const data = await TypeBook.find({type_name: { $regex: searchKey, $options: 'mis' } }).skip(skip).limit(perPage).sort({_id: -1})
       return {data: data, currentPage: page, totalItems: totalItems,  perPage: perPage}
 }
 module.exports.getTypeBookDetail = (typeBookId)=>{
