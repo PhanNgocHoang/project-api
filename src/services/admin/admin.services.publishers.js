@@ -4,19 +4,21 @@ module.exports.createPublisher = (publisherInfo) => {
     const newPublisher = new Publishers(publisherInfo)
     return newPublisher.save()
 }
-module.exports.updatePublisher = (publisherID ,publisherInfo) => {
-    return Publishers.updateOne({_id: publisherID}, publisherInfo)
+module.exports.updatePublisher = (publisherID, publisherInfo) => {
+    return Publishers.updateOne({ _id: publisherID }, publisherInfo)
 }
 module.exports.deletePublisher = (publisherID) => {
-    return Publishers.deleteOne({_id: publisherID})
+    return Publishers.deleteOne({ _id: publisherID })
 }
-module.exports.getDetailsPublisher = (publisherID)=>{
-    return Publishers.findOne({_id: publisherID})
+module.exports.getDetailsPublisher = (publisherID) => {
+    return Publishers.findOne({ _id: publisherID })
 }
-module.exports.getPublishers = async (page)=>{
-    const totalPages = await Publishers.countDocuments()
-    const perPage = 5
+module.exports.getPublishers = async (page, perPage, searchKey) => {
+    const totalItems = await Publishers.countDocuments()
     const skip = (page - 1) * perPage
-    const publishers = await Publishers.find().skip(skip).limit(perPage)
-    return {data: publishers, currentPage: page, totalPages: totalPages}
+    const publishers = await Publishers.find({ publisherName: { $regex: searchKey, $options: 'mis' }, address: { $regex: searchKey, $options: 'mis' } }).skip(skip).limit(perPage)
+    return { data: publishers, currentPage: page, totalItems: totalItems, perPage: perPage }
+}
+module.exports.findPublisherByName = async (name) => {
+    return Publishers.findOne({ publisherName: name })
 }
