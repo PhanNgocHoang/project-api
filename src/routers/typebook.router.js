@@ -21,7 +21,7 @@ routers.post('/createtypebook', async (req, res, next) => {
         await createTypeBook(newData.value)
         return res.status(200).json({ message: 'Create type book successfully' })
     } catch (error) {
-        next(createError(400, error.message))
+        next(error)
     }
 })
 routers.get('/', async (req, res, next) => {
