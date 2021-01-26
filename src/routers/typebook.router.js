@@ -22,6 +22,7 @@ routers.post('/createtypebook', async (req, res, next) => {
         return res.status(200).json({ message: 'Create type book successfully' })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 routers.get('/', async (req, res, next) => {
@@ -33,6 +34,7 @@ routers.get('/', async (req, res, next) => {
         return res.status(200).json({ data: result })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 routers.get('/:typebookId', async (req, res, next) => {
@@ -41,6 +43,7 @@ routers.get('/:typebookId', async (req, res, next) => {
         return res.status(200).json({ data: typebook })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 routers.get('/books/:typebookId', async (req, res, next) => {
@@ -51,6 +54,7 @@ routers.get('/books/:typebookId', async (req, res, next) => {
 
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 routers.put('/:typebookId', async (req, res, next) => {
@@ -69,6 +73,7 @@ routers.put('/:typebookId', async (req, res, next) => {
         return res.status(200).json({ message: "Update successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 routers.delete('/:typebookId', async (req, res, next) => {
@@ -77,6 +82,7 @@ routers.delete('/:typebookId', async (req, res, next) => {
         return res.status(200).json({ message: "Delete type book successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
