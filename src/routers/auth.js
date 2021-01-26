@@ -13,6 +13,9 @@ routers.post('/login', async (req, res, next) => {
         })
         const userData = await bodySchema.validateAsync(req.body)
         const user = await AuthService.login(userData.email, userData.password)
+        if (!user) {
+            return res.status(400).json({ message: "Wrong email or password" })
+        }
         return res.status(200).json({ user: user.userInfo, token: user.token })
     } catch (error) {
         next(error)

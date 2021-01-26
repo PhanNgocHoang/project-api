@@ -48,7 +48,6 @@ module.exports.login = async (email, password) => {
   if (user && result == true) {
     return { userInfo: user, token: this.encodedToken(user.role, user.email, user.password) }
   }
-  throw new Error("Wrong email or password")
 }
 module.exports.findUserByEmail = async (email) => {
   const user = await User.findOne({ email: email })
