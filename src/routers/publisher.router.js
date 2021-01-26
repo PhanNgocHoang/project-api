@@ -23,11 +23,11 @@ routers.post('/createdPublisher', async (req, res, next) => {
         })
         const newData = publisherData.validate(req.body)
         if (newData.error) {
-            return next(createError(400, newData.error.message))
+            return res.status(400).json({ message: newData.error.message })
         }
         const publisher = await findPublisherByName(req.body.publisherName)
         if (publisher) {
-            return next(createError(400, "Publisher is exist"))
+            return res.status(400).json({ message: "Publisher is exist" })
         }
         await createPublisher(newData)
         return res.status(200).json({ message: "Create publisher successfully" })
