@@ -58,10 +58,10 @@ routers.put('/:typebookId', async (req, res, next) => {
         const typebook = join.object({
             type_name: join.string().pattern(new RegExp('^[a-zA-Z0-9 ]*$')).required()
         })
-        const typebookValidate = await typebook.validate(req.body)
+        const typebookValidate = await typebook.validate(req.body.type_name)
         if (typebookValidate.error) {
             typebookValidate.error.message = "Invalid type name"
-            return res.status(400).json({ message: error.message })
+            return res.status(400).json({ message: typebookValidate.error.message })
         }
         await updateTypeBook(req.params.typebookId, typebookValidate.value)
         return res.status(200).json({ message: "Update successfully" })
