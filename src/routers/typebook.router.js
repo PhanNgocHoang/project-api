@@ -61,7 +61,7 @@ routers.put('/:typebookId', async (req, res, next) => {
         const typebookValidate = await typebook.validate(req.body)
         if (typebookValidate.error) {
             typebookValidate.error.message = "Invalid type name"
-            return next(createError(400, typebookValidate.error.message))
+            return res.status(400).json({ message: error.message })
         }
         await updateTypeBook(req.params.typebookId, typebookValidate.value)
         return res.status(200).json({ message: "Update successfully" })
