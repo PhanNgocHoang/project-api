@@ -12,11 +12,11 @@ routers.post('/createtypebook', async (req, res, next) => {
         const newData = await typeBookData.validate(req.body)
         if (newData.error) {
             newData.error.message = "Invalid type name"
-            return next(createError(400, newData.error.message))
+            return res.status(400).json({ message: newData.error.message })
         }
         const typeBook = await findTypeBookByTypeName(req.body.type_name)
         if (typeBook) {
-            return next(createError(400, "TypeBook is exist"))
+            return res.status(400).json({ message: "TypeBook is exist" })
         }
         await createTypeBook(newData.value)
         return res.status(200).json({ message: 'Create type book successfully' })
