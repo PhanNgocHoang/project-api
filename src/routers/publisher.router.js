@@ -12,6 +12,7 @@ routers.get('/', async (req, res, next) => {
         return res.status(200).json({ data: result })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
@@ -33,6 +34,7 @@ routers.post('/createdPublisher', async (req, res, next) => {
         return res.status(200).json({ message: "Create publisher successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 routers.delete('/:publisherId', async (req, res, next) => {
@@ -41,6 +43,7 @@ routers.delete('/:publisherId', async (req, res, next) => {
         return res.status(200).json({ message: "Delete Publisher successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
@@ -58,6 +61,7 @@ routers.put('/:publisherId', async (req, res, next) => {
         return res.status(200).json({ message: "Update Publisher successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 
 })
@@ -67,7 +71,8 @@ routers.get('/:publisherId', async (req, res, next) => {
         const publisher = await getDetailsPublisher(req.params.publisherId)
         return res.status(200).json({ data: publisher })
     } catch (error) {
-
+        next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 

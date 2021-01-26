@@ -12,6 +12,7 @@ routers.get('/', async (req, res, next) => {
         return res.status(200).json({ data: result })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
@@ -21,6 +22,7 @@ routers.delete('/:authId', async (req, res, next) => {
         return res.status(200).json({ message: "Delete author successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
@@ -29,7 +31,8 @@ routers.get('/:authorId', async (req, res, next) => {
         const author = await findAuthorById(req.params.authorId)
         return res.status(200).json({ data: author })
     } catch (error) {
-
+        next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
@@ -51,6 +54,7 @@ routers.post('/createAuthor', async (req, res, next) => {
         return res.status(200).json({ message: "Author created successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
@@ -68,6 +72,7 @@ routers.put('/:authorId', async (req, res, next) => {
         return res.status(200).json({ message: "Update Authors successfully" })
     } catch (error) {
         next(error)
+        return res.status(error.statusCode).json({ message: error.message })
     }
 })
 
