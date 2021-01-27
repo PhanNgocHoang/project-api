@@ -20,7 +20,7 @@ routers.post('/createdPublisher', async (req, res, next) => {
     try {
         const publisherData = join.object({
             publisherName: join.string().pattern(new RegExp('^[a-zA-Z0-9 ]*$')).required(),
-            address: join.string().pattern(new RegExp('/^(\d{1,3})\s?(\w{0,5})\s([a-zA-Z]{2,30})\s([a-zA-Z]{2,15})\.?\s?(\w{0,5})$/')).required()
+            address: join.string().required()
         })
         const newData = publisherData.validate(req.body)
         if (newData.error) {
