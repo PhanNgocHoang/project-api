@@ -12,7 +12,7 @@ routers.get('/', async (req, res, next) => {
         return res.status(200).json({ data: result })
     } catch (error) {
         next(error)
-        return res.status(error.statusCode).json({ message: error.message })
+        return res.status(500).json({ message: error.message })
     }
 })
 
@@ -22,7 +22,7 @@ routers.delete('/:authId', async (req, res, next) => {
         return res.status(200).json({ message: "Delete author successfully" })
     } catch (error) {
         next(error)
-        return res.status(error.statusCode).json({ message: error.message })
+        return res.status(500).json({ message: error.message })
     }
 })
 
@@ -50,11 +50,11 @@ routers.post('/createAuthor', async (req, res, next) => {
         if (author) {
             return next(createError(400, "Authors is exist"))
         }
-        await createAuthor(newData)
+        await createAuthor(newData.value)
         return res.status(200).json({ message: "Author created successfully" })
     } catch (error) {
         next(error)
-        return res.status(error.statusCode).json({ message: error.message })
+        return res.status(500).json({ message: error.message })
     }
 })
 
@@ -68,11 +68,11 @@ routers.put('/:authorId', async (req, res, next) => {
         if (newData.error) {
             return next(createError(400, newData.error.message))
         }
-        await updateAuthor(req.params.authorId, newData)
+        await updateAuthor(req.params.authorId, newData.value)
         return res.status(200).json({ message: "Update Authors successfully" })
     } catch (error) {
         next(error)
-        return res.status(error.statusCode).json({ message: error.message })
+        return res.status(500).json({ message: error.message })
     }
 })
 
