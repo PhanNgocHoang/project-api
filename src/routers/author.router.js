@@ -64,7 +64,7 @@ routers.put('/:authorId', async (req, res, next) => {
             authorName: join.string().pattern(new RegExp('^[a-zA-Z0-9 ]*$')).required(),
             dob: join.date().required()
         })
-        const newData = await authorData.validate(req.body)
+        const newData = await authorData.validate({ authorName: req.body.authorName, dob: req.body.dob })
         if (newData.error) {
             return next(createError(400, newData.error.message))
         }
