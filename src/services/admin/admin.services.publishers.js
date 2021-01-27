@@ -16,7 +16,7 @@ module.exports.getDetailsPublisher = (publisherID) => {
 module.exports.getPublishers = async (page, perPage, searchKey) => {
     const totalItems = await Publishers.countDocuments()
     const skip = (page - 1) * perPage
-    const publishers = await Publishers.find([{ publisherName: { $regex: searchKey, $options: 'mis' }, address: { $regex: searchKey, $options: 'mis' } }]).skip(skip).limit(perPage)
+    const publishers = await Publishers.find({ publisherName: { $regex: searchKey, $options: 'mis' } }).skip(skip).limit(perPage)
     return { data: publishers, currentPage: page, totalItems: totalItems, perPage: perPage }
 }
 module.exports.findPublisherByName = async (name) => {
