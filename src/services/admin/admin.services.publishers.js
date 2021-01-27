@@ -32,6 +32,6 @@ module.exports.getPublishers = async (page, perPage, searchKey) => {
 module.exports.findPublisherByName = async (name) => {
   return Publishers.findOne({ publisherName: name });
 };
-module.exports.getAllPublishers = async () => {
-  return await Publishers.find();
+module.exports.getAllPublishers = () => {
+  return Publishers.find();
 };

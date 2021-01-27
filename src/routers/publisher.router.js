@@ -1,5 +1,4 @@
 const routers = require("express").Router();
-const createError = require("http-errors");
 const join = require("joi");
 const {
   getPublishers,
@@ -11,6 +10,15 @@ const {
   getAllPublishers,
 } = require("../services/admin/admin.services.publishers");
 
+routers.get("/getAll", async (req, res, next) => {
+  try {
+    const publishers = await getAllPublishers();
+    return res.status(200).json({ data: publishers });
+  } catch (error) {
+    next(error);
+    return res.status(500).json({ message: error.message });
+  }
+});
 routers.get("/", async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -86,16 +94,6 @@ routers.get("/:publisherId", async (req, res, next) => {
   try {
     const publisher = await getDetailsPublisher(req.params.publisherId);
     return res.status(200).json({ data: publisher });
-  } catch (error) {
-    next(error);
-    return res.status(500).json({ message: error.message });
-  }
-});
-
-routers.get("/getAll", async (req, res, next) => {
-  try {
-    const publishers = await getAllPublishers();
-    return res.status(200).json({ data: publishers });
   } catch (error) {
     next(error);
     return res.status(500).json({ message: error.message });
