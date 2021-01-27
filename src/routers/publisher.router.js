@@ -53,7 +53,7 @@ routers.put('/:publisherId', async (req, res, next) => {
             publisherName: join.string().pattern(new RegExp('^[a-zA-Z0-9 ]*$')).required(),
             address: join.string().required()
         })
-        const newData = publisherData.validate(req.body)
+        const newData = publisherData.validate({ publisherName: req.body.publisherName, address: req.body.address })
         if (newData.error) {
             return next(createError(400, newData.error.message))
         }
