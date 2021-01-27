@@ -1,7 +1,7 @@
 const Authors = require('../../models/authors.model')
 
 module.exports.createAuthor = (authorInfo) => {
-    const newAuthor = new Author(authorInfo)
+    const newAuthor = new Authors(authorInfo)
     return newAuthor.save()
 }
 module.exports.updateAuthor = (authorId, authorInfo) => {
