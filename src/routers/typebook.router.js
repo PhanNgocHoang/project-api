@@ -35,7 +35,7 @@ routers.post("/createtypebook", async (req, res, next) => {
     }
     const typeBook = await findTypeBookByTypeName(req.body.type_name);
     if (typeBook) {
-      return res.status(400).json({ message: "TypeBook is exist" });
+      return res.status(400).json({ message: "Book type is exist" });
     }
     await createTypeBook(newData.value);
     return res.status(200).json({ message: "Create type book successfully" });
@@ -93,7 +93,7 @@ routers.put("/:typebookId", async (req, res, next) => {
       return res.status(400).json({ message: typebookValidate.error.message });
     }
     await updateTypeBook(req.params.typebookId, typebookValidate.value);
-    return res.status(200).json({ message: "Update successfully" });
+    return res.status(200).json({ message: "Update type book successfully" });
   } catch (error) {
     next(error);
     return res.status(error.statusCode).json({ message: error.message });

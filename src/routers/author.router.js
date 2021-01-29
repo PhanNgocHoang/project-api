@@ -12,7 +12,7 @@ const {
 
 routers.get("/getAll", async (req, res, next) => {
   try {
-    const authors = await getAllAuthors();
+    const authors = await getAllAuthor();
     return res.status(200).json({ data: authors });
   } catch (error) {
     next(error);
@@ -68,7 +68,7 @@ routers.post("/createAuthor", async (req, res, next) => {
     }
     const author = await findAuthorByName(req.body.authorName);
     if (author) {
-      return next(createError(400, "Authors is exist"));
+      return next(createError(400, "Author is exist"));
     }
     await createAuthor(newData.value);
     return res.status(200).json({ message: "Author created successfully" });
@@ -95,7 +95,7 @@ routers.put("/:authorId", async (req, res, next) => {
       return next(createError(400, newData.error.message));
     }
     await updateAuthor(req.params.authorId, newData.value);
-    return res.status(200).json({ message: "Update Authors successfully" });
+    return res.status(200).json({ message: "Update Author successfully" });
   } catch (error) {
     next(error);
     return res.status(500).json({ message: error.message });

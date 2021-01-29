@@ -8,7 +8,7 @@ module.exports.createBooks = async (bookData) => {
     next(error);
   }
 };
-module.exports.updateBooks = async (bookId, bookData) => {
+module.exports.updateBook = async (bookId, bookData) => {
   try {
     return Books.updateOne({ _id: bookId }, bookData);
   } catch (error) {
