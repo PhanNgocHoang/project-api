@@ -44,5 +44,5 @@ module.exports.findTypeBookByTypeName = (typeName) => {
   return TypeBook.findOne({ type_name: typeName });
 };
 module.exports.getAllBookTypes = async () => {
-  return await TypeBook.find();
+  return await TypeBook.find({}, ["_id", "type_name"]);
 };

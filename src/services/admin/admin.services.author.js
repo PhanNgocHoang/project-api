@@ -32,5 +32,5 @@ module.exports.findAuthorById = (authorId) => {
   return Authors.findOne({ _id: authorId });
 };
 module.exports.getAllAuthor = async () => {
-  return await Authors.find();
+  return await Authors.find({}, ["_id", "authorName"]);
 };

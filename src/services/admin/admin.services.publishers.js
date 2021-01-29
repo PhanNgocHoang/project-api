@@ -33,5 +33,5 @@ module.exports.findPublisherByName = async (name) => {
   return Publishers.findOne({ publisherName: name });
 };
 module.exports.getAllPublishers = () => {
-  return Publishers.find();
+  return Publishers.find({}, ["_id", "publisherName"]);
 };
