@@ -80,6 +80,7 @@ passport.use(
       callbackURL: authGoogle.callbackURL,
     },
     async (accessToke, refreshToke, profile, done) => {
+      console.log(profile);
       const user = await User.findOne({ googleId: profile.id });
       if (user) {
         done(null, user);
