@@ -85,7 +85,7 @@ routers.get(
   }
 );
 
-routers.get("/me", authMiddleware(true), (req, res) => {
-  res.status(200).json(req.user);
-});
+// routers.get("/me", authMiddleware(true), (req, res) => {
+//   res.status(200).json(req.user);
+// });
 module.exports = routers;
