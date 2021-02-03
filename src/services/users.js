@@ -107,7 +107,7 @@ passport.use(
     },
     async (accessToke, refreshToke, profile, done) => {
       console.log(profile);
-      const user = await User.findOne({ facebookId: profile.id });
+      const user = await User.findOne({ fbId: profile.id });
       if (user) {
         done(null, user);
       }
