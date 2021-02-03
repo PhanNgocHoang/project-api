@@ -103,7 +103,7 @@ passport.use(
       clientID: authFacebook.clientID,
       clientSecret: authFacebook.clientSecret,
       callbackURL: authFacebook.callbackURL,
-      profileFields: ["email", "displayName", "photo", "gender"],
+      profileFields: ["email", "displayName", "gender"],
     },
     async (accessToke, refreshToke, profile, done) => {
       console.log(profile);
@@ -114,6 +114,7 @@ passport.use(
       const userData = new User({
         facebookId: profile.id,
         email: profile.emails,
+        dob: profile.birthday,
         displayName: profile.displayName,
         role: "USER",
         photoUrl: profile.photos,
