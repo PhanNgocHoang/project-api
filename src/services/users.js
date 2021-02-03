@@ -86,11 +86,12 @@ passport.use(
         done(null, user);
       }
       const userData = new User({
+        googleId: profile.id,
         email: profile.emails,
-        password: profile.emails,
+        password: profile.emails[0].value,
         displayName: profile.displayName,
         role: "USER",
-        photoUrl: profile.photos,
+        photoUrl: profile.photos[0].value,
       });
       userData.save((newUser) => {
         done(null, newUser);
