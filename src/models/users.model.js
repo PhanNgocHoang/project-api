@@ -16,7 +16,7 @@ const UserSchema = new Schema(
       enum: ["ADMIN", "USER"],
       default: "USER",
     },
-    photoUrl: { type: String, required: true },
+    photoUrl: { type: String },
   },
   {
     timestamps: true,
