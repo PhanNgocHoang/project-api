@@ -102,6 +102,7 @@ passport.use(
       callbackURL: authFacebook.callbackURL,
     },
     async (accessToke, refreshToke, profile, done) => {
+      console.log(profile);
       const user = await User.findOne({ facebookId: profile.id });
       if (user) {
         done(null, user);
