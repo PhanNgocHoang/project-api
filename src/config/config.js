@@ -1,8 +1,8 @@
 module.exports = {
   authGoogle: {
     clientID:
-      "262517224867-ktp56m02qdoucuhhjg302isidg60uq1p.apps.googleusercontent.com",
-    clientSecret: "dnrGBX-rF82osdh_BMpGK-6n",
+      "262517224867-kg4koio9jbl6hduuqrc8tosj7m1msjjc.apps.googleusercontent.com",
+    clientSecret: "xb2UpurUIdC-fIeGF3B8dlL8",
     callbackURL: "https://e-libraryapi.herokuapp.com/auth/google/redirect",
   },
   authFacebook: {
