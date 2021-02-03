@@ -87,7 +87,7 @@ passport.use(
       }
       const userData = new User({
         googleId: profile.id,
-        email: profile.emails,
+        email: profile.emails[0].value,
         password: profile.emails[0].value,
         displayName: profile.displayName,
         role: "USER",
