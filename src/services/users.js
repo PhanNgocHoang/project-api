@@ -111,8 +111,7 @@ passport.use(
         done(null, user);
       }
       const userData = new User({
-        email: profile.emails,
-        password: profile.emails,
+        facebookId: profile.id,
         displayName: profile.displayName,
         role: "USER",
         photoUrl: profile.photos,
