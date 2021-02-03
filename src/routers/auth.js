@@ -3,6 +3,7 @@ const AuthService = require("../services/users");
 const joi = require("@hapi/joi");
 const createError = require("http-errors");
 const passport = require("passport");
+const { authMiddleware } = require("../middlewares/auth");
 
 routers.post("/login", async (req, res, next) => {
   try {
@@ -85,4 +86,7 @@ routers.get(
   }
 );
 
+routers.get("/me", authMiddleware(true), (req, res) => {
+  res.status(200).json(req.user);
+});
 module.exports = routers;

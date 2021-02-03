@@ -9,13 +9,16 @@ module.exports.encodedToken = (role, email, id) => {
   return JWT.sign(
     {
       iss: email,
-      id,
+      id: id,
       sub: role,
       iat: new Date().getTime(),
       exp: new Date().setDate(new Date().getDate() + 3),
     },
     jwt_secret
   );
+};
+module.exports.verifyToken = (token) => {
+  return JWT.verify(token, jwt_secret);
 };
 module.exports.register = async (
   email,
