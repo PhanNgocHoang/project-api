@@ -83,7 +83,7 @@ passport.use(
       }
       const userData = new User({
         email: profile.emails,
-        passport: profile.emails,
+        password: profile.emails,
         displayName: profile.displayName,
         role: "USER",
         photoUrl: profile.photos,
@@ -109,7 +109,7 @@ passport.use(
       }
       const userData = new User({
         email: profile.emails,
-        passport: profile.emails,
+        password: profile.emails,
         displayName: profile.displayName,
         role: "USER",
         photoUrl: profile.photos,

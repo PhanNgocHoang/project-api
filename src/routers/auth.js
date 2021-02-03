@@ -75,6 +75,7 @@ routers.get(
   "/facebook/redirect",
   passport.authenticate("facebook"),
   (req, res) => {
+    console.log(req.user);
     const token = AuthService.encodedToken(
       req.user.role,
       req.user.email,
