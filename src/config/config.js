@@ -6,8 +6,8 @@ module.exports = {
     callbackURL: "/auth/google/redirect",
   },
   authFacebook: {
-    clientID: "322522312399138",
-    clientSecret: "a2f2ba4a1e79396e547b00cd001f1fc6",
+    clientID: "334656057760844",
+    clientSecret: "4cea91f5314f980017f8ad7e762b0ec5",
     callbackURL: "/auth/facebook/redirect",
   },
   jwt_secret: "e-library@123",
