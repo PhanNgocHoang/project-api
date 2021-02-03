@@ -112,7 +112,7 @@ passport.use(
         done(null, user);
       }
       const userData = new User({
-        facebookId: profile.id,
+        fbId: profile.id,
         email: profile.emails,
         dob: profile.birthday,
         displayName: profile.displayName,
