@@ -5,6 +5,9 @@ const createError = require("http-errors");
 const passport = require("passport");
 const { authMiddleware } = require("../middlewares/auth");
 
+routers.get("/me", authMiddleware(true), (req, res, next) => {
+  res.status(200).json(req.user);
+});
 routers.post("/login", async (req, res, next) => {
   try {
     const bodySchema = joi.object({
@@ -84,8 +87,4 @@ routers.get(
     return res.status(200).json({ user: req.user, token: token });
   }
 );
-
-routers.get("/me", authMiddleware(true), (req, res) => {
-  res.status(200).json(req.user);
-});
 module.exports = routers;
