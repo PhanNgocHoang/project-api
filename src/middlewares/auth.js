@@ -13,6 +13,7 @@ const authMiddleware = (required) => {
     try {
       const decideObj = verifyToken(token);
       const id = decideObj.id;
+      console.log(decideObj);
       User.findOne({ _id: id })
         .exec()
         .then((user) => {
