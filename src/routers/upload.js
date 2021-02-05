@@ -81,4 +81,17 @@ routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
     next(createError(500, error));
   }
 });
+routers.post("/delete/file", async (req, res, next) => {
+  try {
+    const result = await cloudinary.api.delete_resources(
+      req.body.image,
+      (err, result) => {
+        if (err) return res.json({ message: err.message });
+        return res.status(200).json({ result: true });
+      }
+    );
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
 module.exports = routers;
