@@ -83,13 +83,10 @@ routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
 });
 routers.post("/delete/file", async (req, res, next) => {
   try {
-    const result = await cloudinary.api.delete_resources(
-      req.body.image,
-      (err, result) => {
-        if (err) return res.json({ message: err.message });
-        return res.status(200).json({ result: true });
-      }
-    );
+    await cloudinary.api.delete_resources(req.body.file, (err, result) => {
+      if (err) return res.json({ message: err.message });
+      return res.status(200).json({ result: true });
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
