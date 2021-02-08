@@ -56,7 +56,7 @@ routers.post(
             return result;
           }
         );
-        images.push(imageUrls.url);
+        images.push({ url: imageUrls.url, cloudinary_id: imageUrls.public_id });
         fs.unlinkSync(image.path);
       }
       return res.status(200).json({ images: images });
@@ -76,19 +76,20 @@ routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
       }
     );
     fs.unlinkSync(req.file.path);
-    return res.status(200).json({ documentUrls: documentUrls.url });
+    return res.status(200).json({
+      documentUrls: documentUrls.url,
+      cloudinary_id: documentUrls.public_id,
+    });
   } catch (error) {
     next(createError(500, error));
   }
 });
-routers.delete("/delete/file", async (req, res, next) => {
+routers.post("/delete/file", async (req, res, next) => {
   try {
     const fileUrls = req.body.files;
-    for (let i = 0; i < fileUrls.length; i++) {
-      await cloudinary.api.delete_resources(fileUrls[i], (err, result) => {
-        if (err) return res.json({ message: err.message });
-      });
-    }
+    await cloudinary.api.delete_resources(fileUrls, (err, result) => {
+      if (err) return res.json({ message: err.message });
+    });
     return res.status(200).json({ result: true });
   } catch (error) {
     return res.status(500).json({ message: error.message });

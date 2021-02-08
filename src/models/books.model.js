@@ -19,8 +19,16 @@ const BookSchema = new Schema(
     },
     status: { type: Boolean, required: true, default: true },
     description: { type: String, required: true },
-    images: { type: Array, required: true },
-    file: { type: String, required: true },
+    images: [
+      {
+        url: { type: String, required: true },
+        cloudinary_id: { type: String, required: true },
+      },
+    ],
+    file: {
+      url: { type: String, required: true },
+      cloudinary_id: { type: String, required: true },
+    },
   },
   {
     timestamps: true,
