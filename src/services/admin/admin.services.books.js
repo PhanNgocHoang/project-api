@@ -46,7 +46,10 @@ module.exports.getBooks = async (page, perPage, searchKey) => {
       book_name: { $regex: searchKey, $options: "mis" },
     })
       .skip(skip)
-      .limit(perPage);
+      .limit(perPage)
+      .populate({ path: "author", select: "authorName" })
+      .populate({ path: "publisher", select: "publisherName" })
+      .populate({ path: " book_type", select: "type_name" });
     return { data: books, currentPage: page, totalItems: totalItems };
   } catch (error) {
     next(error);
