@@ -10,5 +10,5 @@ const typeBookSchema = new Schema(
   }
 );
 typeBookSchema.index({ "$**": "text" });
-const typeBook = mongoose.model("book_type", typeBookSchema);
+const typeBook = mongoose.model("type_books", typeBookSchema);
 module.exports = typeBook;

@@ -10,7 +10,7 @@ const BookSchema = new Schema(
     book_type: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "book_type",
+      ref: "type_books",
     },
     publisher: {
       type: mongoose.Schema.Types.ObjectId,
