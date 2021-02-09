@@ -77,7 +77,7 @@ routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
     );
     fs.unlinkSync(req.file.path);
     return res.status(200).json({
-      documentUrls: documentUrls.url,
+      url: documentUrls.url,
       cloudinary_id: documentUrls.public_id,
     });
   } catch (error) {
