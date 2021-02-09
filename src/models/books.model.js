@@ -4,18 +4,18 @@ const Schema = mongoose.Schema;
 const BookSchema = new Schema(
   {
     book_name: { type: String, required: true },
-    author: [
+    authors: [
       { type: mongoose.Schema.Types.ObjectId, required: true, ref: "authors" },
     ],
     book_type: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "type_book",
+      ref: "book_type",
     },
     publisher: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "publisher",
+      ref: "publishers",
     },
     status: { type: Boolean, required: true, default: true },
     description: { type: String, required: true },
