@@ -5,21 +5,21 @@ module.exports.createBooks = async (bookData) => {
     const books = new Books(bookData);
     return books.save();
   } catch (error) {
-    next(error);
+    throw new Error(error);
   }
 };
 module.exports.updateBook = async (bookId, bookData) => {
   try {
     return Books.updateOne({ _id: bookId }, bookData);
   } catch (error) {
-    next(error);
+    throw new Error(error);
   }
 };
 module.exports.deleteBooks = (bookId) => {
   try {
     return Books.deleteOne({ _id: bookId });
   } catch (error) {
-    next(error);
+    throw new Error(error);
   }
 };
 module.exports.findBooksById = async (bookId) => {
@@ -27,7 +27,7 @@ module.exports.findBooksById = async (bookId) => {
     const books = await Books.findOne({ _id: bookId });
     return books;
   } catch (error) {
-    next(error);
+    throw new Error(error);
   }
 };
 
@@ -35,7 +35,7 @@ module.exports.findBooksByName = async (bookName) => {
   try {
     return Books.findOne({ book_name: bookName });
   } catch (error) {
-    next(error);
+    throw new Error(error);
   }
 };
 module.exports.getBooks = async (page, perPage, searchKey) => {
@@ -52,6 +52,6 @@ module.exports.getBooks = async (page, perPage, searchKey) => {
       .populate({ path: " book_type", select: "type_name" });
     return { data: books, currentPage: page, totalItems: totalItems };
   } catch (error) {
-    next(error);
+    throw new Error(error);
   }
 };
