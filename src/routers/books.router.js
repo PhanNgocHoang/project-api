@@ -9,7 +9,7 @@ const {
   getBooks,
 } = require("../services/admin/admin.services.books");
 
-routers.get("/", async (req, res, next) => {
+routers.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
@@ -17,7 +17,6 @@ routers.get("/", async (req, res, next) => {
     const result = await getBooks(page, limit, searchKey);
     return res.status(200).json({ data: result });
   } catch (error) {
-    next(error);
     return res.status(500).json({ message: error.message });
   }
 });
