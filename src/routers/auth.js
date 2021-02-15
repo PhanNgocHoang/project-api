@@ -67,7 +67,15 @@ routers.get("/google/redirect", passport.authenticate("google"), (req, res) => {
     req.user.email,
     req.user._id
   );
-  return res.status(200).json({ user: req.user, token: token });
+  const html = `<html>
+      <script>
+        // Save JWT to localStorage
+        window.localStorage.setItem('token', '${token}');
+        // Redirect browser to root of application
+        window.location.href = '/';
+      </script>
+    </html>  `;
+  return res.status(200).send(html);
 });
 
 routers.get("/me/:id", async (req, res) => {
@@ -84,7 +92,15 @@ routers.get(
       req.user.email,
       req.user._id
     );
-    return res.status(200).json({ user: req.user, token: token });
+    const html = `<html>
+      <script>
+        // Save JWT to localStorage
+        window.localStorage.setItem('token', '${token}');
+        // Redirect browser to root of application
+        window.location.href = '/';
+      </script>
+    </html>  `;
+    return res.status(200).send(html);
   }
 );
 module.exports = routers;

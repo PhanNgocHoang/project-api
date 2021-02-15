@@ -7,6 +7,7 @@ const {
   findBooksById,
   findBooksByName,
   getBooks,
+  getNewBook,
 } = require("../services/admin/admin.services.books");
 
 routers.get("/", async (req, res) => {
@@ -17,7 +18,6 @@ routers.get("/", async (req, res) => {
     const result = await getBooks(page, limit, searchKey);
     return res.status(200).json({ data: result });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 });

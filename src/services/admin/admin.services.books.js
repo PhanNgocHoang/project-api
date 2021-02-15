@@ -55,3 +55,7 @@ module.exports.getBooks = async (page, perPage, searchKey) => {
     throw new Error(error);
   }
 };
+module.exports.getNewBook = async () => {
+  const newBook = await Books.find();
+  return newBook;
+};
