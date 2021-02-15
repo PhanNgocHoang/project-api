@@ -72,10 +72,10 @@ routers.get("/google/redirect", passport.authenticate("google"), (req, res) => {
         // Save JWT to localStorage
         window.localStorage.setItem('token', '${token}');
         // Redirect browser to root of application
-        window.location.href = '/';
+        window.location.href = 'https://e-libraryapi.herokuapp.com/';
       </script>
     </html>  `;
-  return res.status(200).send(html);
+  res.send(html);
 });
 
 routers.get("/me/:id", async (req, res) => {
@@ -97,10 +97,10 @@ routers.get(
         // Save JWT to localStorage
         window.localStorage.setItem('token', '${token}');
         // Redirect browser to root of application
-        window.location.href = '/';
+        window.location.href = 'https://e-libraryapi.herokuapp.com';
       </script>
     </html>  `;
-    return res.status(200).send(html);
+    res.send(html);
   }
 );
 module.exports = routers;
