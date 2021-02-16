@@ -17,7 +17,8 @@ module.exports.getAuthors = async (page, perPage, searchKey) => {
     authorName: { $regex: searchKey, $options: "mis" },
   })
     .skip(skip)
-    .limit(perPage);
+    .limit(perPage)
+    .sort({ _id: -1 });
   return {
     data: authors,
     currentPage: page,
