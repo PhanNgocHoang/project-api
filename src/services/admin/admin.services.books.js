@@ -24,7 +24,10 @@ module.exports.deleteBooks = (bookId) => {
 };
 module.exports.findBooksById = async (bookId) => {
   try {
-    const books = await Books.findOne({ _id: bookId });
+    const books = await Books.findOne({ _id: bookId })
+      .populate({ path: "authors", select: "authorName" })
+      .populate({ path: "publisher", select: "publisherName" })
+      .populate({ path: " book_type", select: "type_name" });
     return books;
   } catch (error) {
     throw new Error(error);
