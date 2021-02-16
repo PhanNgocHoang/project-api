@@ -33,7 +33,7 @@ routers.delete("/:bookId", async (req, res, next) => {
 
 routers.get("/:bookId", async (req, res, next) => {
   try {
-    const author = await findBooksById(req.params.authorId);
+    const author = await findBooksById(req.params.bookId);
     return res.status(200).json({ data: author });
   } catch (error) {
     next(error);
