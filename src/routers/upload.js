@@ -41,30 +41,24 @@ const uploadPDF = multer({
   limits: { fileSize: 1024 * 1024 * 10 },
   fileFilter: fileFilterPDF,
 });
-routers.post(
-  "/images",
-  uploadImage.array("images", 10),
-  async (req, res, next) => {
-    try {
-      let images = [];
-      for (const image of req.files) {
-        const imageUrls = await cloudinary.uploader.upload(
-          image.path,
-          { folder: "images" },
-          (err, result) => {
-            if (err) throw new Error(err);
-            return result;
-          }
-        );
-        images.push({ url: imageUrls.url, cloudinary_id: imageUrls.public_id });
-        fs.unlinkSync(image.path);
+routers.post("/images", uploadImage.single("image"), async (req, res, next) => {
+  try {
+    const imageUrls = await cloudinary.uploader.upload(
+      req.file.path,
+      { folder: "images" },
+      (err, result) => {
+        if (err) throw new Error(err);
+        return result;
       }
-      return res.status(200).json({ images: images });
-    } catch (error) {
-      next(error);
-    }
+    );
+    fs.unlinkSync(image.path);
+    return res.status(200).json({
+      image: { url: imageUrls.url, cloudinary_id: imageUrls.public_id },
+    });
+  } catch (error) {
+    next(error);
   }
-);
+});
 routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
   try {
     const documentUrls = await cloudinary.uploader.upload(
