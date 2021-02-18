@@ -18,6 +18,7 @@ const UserSchema = new Schema(
       default: "USER",
     },
     photoUrl: { type: String },
+    money: { type: Number, default: 0 },
   },
   {
     timestamps: true,
