@@ -48,12 +48,12 @@ routers.post("/createBook", async (req, res, next) => {
         .string()
         .pattern(new RegExp("^[a-zA-Z0-9 ]*$"))
         .required(),
-      author: join.string().required(),
+      author: join.array().required(),
       book_type: join.string().required(),
       publisher: join.string().required(),
-      destination: join.string().required(),
-      images: join.array().required(),
-      file: join.string().required(),
+      description: join.string().required(),
+      images: join.object().required(),
+      file: join.object().required(),
     });
     const newData = await bookData.validate(req.body);
     if (newData.error) {
