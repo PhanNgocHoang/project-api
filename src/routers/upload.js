@@ -28,7 +28,7 @@ const fileFilterImages = (req, file, cb) => {
   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
     return cb(null, true);
   } else {
-    return cb(createError(400, "Please only upload images jpg or png"), false);
+    return cb(createError(400, "Please only upload image jpg or png"), false);
   }
 };
 const uploadImage = multer({
@@ -51,12 +51,12 @@ routers.post("/images", uploadImage.single("image"), async (req, res, next) => {
         return result;
       }
     );
-    fs.unlinkSync(image.path);
+    fs.unlinkSync(req.file.path);
     return res.status(200).json({
       image: { url: imageUrls.url, cloudinary_id: imageUrls.public_id },
     });
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: error.message });
   }
 });
 routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
@@ -75,7 +75,7 @@ routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
       cloudinary_id: documentUrls.public_id,
     });
   } catch (error) {
-    next(createError(500, error));
+    return res.status(500).json({ message: error.message });
   }
 });
 routers.post("/delete/file", async (req, res, next) => {
