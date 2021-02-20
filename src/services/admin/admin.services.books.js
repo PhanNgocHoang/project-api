@@ -49,6 +49,7 @@ module.exports.getBooks = async (page, perPage, searchKey) => {
       book_name: { $regex: searchKey, $options: "mis" },
     })
       .skip(skip)
+      .sort({ _id: -1 })
       .limit(perPage)
       .populate({ path: "authors", select: "authorName" })
       .populate({ path: "publisher", select: "publisherName" })
