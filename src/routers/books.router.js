@@ -48,7 +48,7 @@ routers.post("/createBook", async (req, res, next) => {
         .string()
         .pattern(new RegExp("^[a-zA-Z0-9 ]*$"))
         .required(),
-      author: join.array().required(),
+      authors: join.array().items(join.string()).required(),
       book_type: join.string().required(),
       publisher: join.string().required(),
       description: join.string().required(),
