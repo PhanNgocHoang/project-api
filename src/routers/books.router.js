@@ -23,7 +23,7 @@ routers.get("/", async (req, res) => {
 });
 routers.delete("/:bookId", async (req, res, next) => {
   try {
-    await deleteBooks(req.params.authId);
+    await deleteBooks(req.params.bookId);
     return res.status(200).json({ message: "Delete book successfully" });
   } catch (error) {
     next(error);
