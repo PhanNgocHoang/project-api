@@ -15,7 +15,17 @@ routers.get("/", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
     const searchKey = req.query.searchKey || "";
-    const result = await getBooks(page, limit, searchKey);
+    const publisher = req.query.publisher || null;
+    const bookType = req.query.bookType || null;
+    const authors = req.query.authors || [];
+    const result = await getBooks(
+      page,
+      limit,
+      searchKey,
+      publisher,
+      bookType,
+      authors
+    );
     return res.status(200).json({ data: result });
   } catch (error) {
     return res.status(500).json({ message: error.message });

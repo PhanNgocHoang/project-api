@@ -41,20 +41,40 @@ module.exports.findBooksByName = async (bookName) => {
     throw new Error(error);
   }
 };
-module.exports.getBooks = async (page, perPage, searchKey) => {
+module.exports.getBooks = async (
+  page,
+  perPage,
+  searchKey,
+  publisher,
+  bookType,
+  author
+) => {
   try {
-    const totalItems = await Books.countDocuments();
     const skip = (page - 1) * perPage;
-    const books = await Books.find({
-      book_name: { $regex: searchKey, $options: "mis" },
-    })
+    const query = Books.find({
+      $and: [
+        {
+          book_name: { $regex: searchKey, $options: "mis" },
+        },
+      ],
+    });
+    if (publisher != null) {
+      query.find({ publisher: publisher });
+    }
+    if (bookType != null) {
+      query.find({ book_type: bookType });
+    }
+    if (author.length > 0) {
+      query.find({ authors: { $in: authors } });
+    }
+    const books = await query
       .skip(skip)
       .sort({ _id: -1 })
       .limit(perPage)
       .populate({ path: "authors", select: "authorName" })
       .populate({ path: "publisher", select: "publisherName" })
       .populate({ path: " book_type", select: "type_name" });
-    return { data: books, currentPage: page, totalItems: totalItems };
+    return { data: books, currentPage: page, totalItems: books.length };
   } catch (error) {
     throw new Error(error);
   }
