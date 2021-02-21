@@ -44,18 +44,24 @@ const uploadPDF = multer({
 });
 routers.post("/images", uploadImage.single("image"), async (req, res, next) => {
   try {
-    const imageUrls = await cloudinary.uploader.upload(
-      req.file.path,
-      { folder: "images" },
-      (err, result) => {
-        if (err) throw new Error(err);
-        return result;
-      }
-    );
-    fs.unlinkSync(req.file.path);
-    return res.status(200).json({
-      image: { url: imageUrls.url, cloudinary_id: imageUrls.public_id },
+    const blob = firebase.bucket.file(req.file.originalname);
+    const blobWriter = blob.createWriteStream({
+      metadata: {
+        contentType: req.file.mimetype,
+      },
     });
+    blobWriter.on("error", (err) => {
+      throw new Error(err);
+    });
+
+    blobWriter.on("finish", () => {
+      res.status(200).json({
+        url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
+      });
+    });
+
+    blobWriter.end(req.file.buffer);
+    fs.unlinkSync(req.file.path);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
