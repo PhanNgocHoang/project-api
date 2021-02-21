@@ -33,11 +33,10 @@ routers.delete("/:bookId", async (req, res, next) => {
 
 routers.get("/:bookId", async (req, res, next) => {
   try {
-    const author = await findBooksById(req.params.bookId);
-    return res.status(200).json({ data: author });
+    const book = await findBooksById(req.params.bookId);
+    return res.status(200).json({ data: book });
   } catch (error) {
-    next(error);
-    return res.status(error.statusCode).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 });
 
@@ -66,7 +65,6 @@ routers.post("/createBook", async (req, res, next) => {
     await createBooks(newData.value);
     return res.status(200).json({ message: "Book created successfully" });
   } catch (error) {
-    next(error);
     return res.status(500).json({ message: error.message });
   }
 });
@@ -78,12 +76,12 @@ routers.put("/:bookId", async (req, res, next) => {
         .string()
         .pattern(new RegExp("^[a-zA-Z0-9 ]*$"))
         .required(),
-      author: join.string().required(),
+      authors: join.array().items(join.string()).required(),
       book_type: join.string().required(),
       publisher: join.string().required(),
-      destination: join.string().required(),
-      images: join.array().required(),
-      file: join.string().required(),
+      description: join.string().required(),
+      images: join.object().required(),
+      file: join.object().required(),
     });
     const newData = await bookData.validate(req.body);
     if (newData.error) {

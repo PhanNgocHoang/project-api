@@ -23,10 +23,7 @@ const BookSchema = new Schema(
       url: { type: String, required: true },
       cloudinary_id: { type: String, required: true },
     },
-    file: {
-      url: { type: String, required: true },
-      cloudinary_id: { type: String, required: true },
-    },
+    file: { type: String, required: true, default: true },
   },
   {
     timestamps: true,

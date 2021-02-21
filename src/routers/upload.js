@@ -2,8 +2,9 @@ const routers = require("express").Router();
 const multer = require("multer");
 const fs = require("fs");
 const createError = require("http-errors");
-const cloudinary = require("cloudinary").v2;
+const cloudinary = require("cloudinary");
 const { cloudinaryConfig } = require("../config/config");
+const firebase = require("../config/firebase");
 
 cloudinary.config({
   cloud_name: cloudinaryConfig.cloud_name,
@@ -61,19 +62,24 @@ routers.post("/images", uploadImage.single("image"), async (req, res, next) => {
 });
 routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
   try {
-    const documentUrls = await cloudinary.uploader.upload(
-      req.file.path,
-      { folder: "document" },
-      (err, result) => {
-        if (err) throw new Error(err);
-        return result;
-      }
-    );
-    fs.unlinkSync(req.file.path);
-    return res.status(200).json({
-      url: documentUrls.url,
-      cloudinary_id: documentUrls.public_id,
+    const blob = firebase.bucket.file(req.file.originalname);
+    const blobWriter = blob.createWriteStream({
+      metadata: {
+        contentType: req.file.mimetype,
+      },
     });
+    blobWriter.on("error", (err) => {
+      console.log(err);
+    });
+
+    blobWriter.on("finish", () => {
+      res.status(200).json({
+        url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
+      });
+    });
+
+    blobWriter.end(req.file.buffer);
+    fs.unlinkSync(req.file.path);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
