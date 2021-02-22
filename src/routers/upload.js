@@ -5,6 +5,7 @@ const createError = require("http-errors");
 const cloudinary = require("cloudinary");
 const { cloudinaryConfig } = require("../config/config");
 const firebase = require("../config/firebase");
+const { Storage } = require("@google-cloud/storage");
 
 cloudinary.config({
   cloud_name: cloudinaryConfig.cloud_name,
@@ -44,48 +45,32 @@ const uploadPDF = multer({
 });
 routers.post("/images", uploadImage.single("image"), async (req, res, next) => {
   try {
-    const blob = firebase.bucket.file(req.file.originalname);
-    const blobWriter = blob.createWriteStream({
+    await firebase.bucket.upload(req.file.path, {
       metadata: {
         contentType: req.file.mimetype,
       },
+      destination: req.file.originalname,
     });
-    blobWriter.on("error", (err) => {
-      throw new Error(err);
-    });
-
-    blobWriter.on("finish", () => {
-      res.status(200).json({
-        url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
-      });
-    });
-
-    blobWriter.end(req.file.buffer);
     fs.unlinkSync(req.file.path);
+    return res.status(200).json({
+      url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 });
 routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
   try {
-    const blob = firebase.bucket.file(req.file.originalname);
-    const blobWriter = blob.createWriteStream({
+    await firebase.bucket.upload(req.file.path, {
       metadata: {
         contentType: req.file.mimetype,
       },
+      destination: req.file.originalname,
     });
-    blobWriter.on("error", (err) => {
-      console.log(err);
-    });
-
-    blobWriter.on("finish", () => {
-      res.status(200).json({
-        url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
-      });
-    });
-
-    blobWriter.end(req.file.buffer);
     fs.unlinkSync(req.file.path);
+    return res.status(200).json({
+      url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
