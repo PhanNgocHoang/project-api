@@ -59,13 +59,13 @@ module.exports.getBooks = async (
       ],
     });
     if (publisher.length > 0) {
-      query.find({ publisher: publisher });
+      query.find({ publisher: { $in: publisher } });
     }
     if (bookType.length > 0) {
-      query.find({ book_type: bookType });
+      query.find({ book_type: { $in: bookType } });
     }
     if (author.length > 0) {
-      query.find({ authors: { $in: authors } });
+      query.find({ authors: { $in: author } });
     }
     const books = await query
       .skip(skip)
