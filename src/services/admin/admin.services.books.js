@@ -58,10 +58,10 @@ module.exports.getBooks = async (
         },
       ],
     });
-    if (publisher != null) {
+    if (publisher.length > 0) {
       query.find({ publisher: publisher });
     }
-    if (bookType != null) {
+    if (bookType.length > 0) {
       query.find({ book_type: bookType });
     }
     if (author.length > 0) {
@@ -74,7 +74,8 @@ module.exports.getBooks = async (
       .populate({ path: "authors", select: "authorName" })
       .populate({ path: "publisher", select: "publisherName" })
       .populate({ path: " book_type", select: "type_name" });
-    return { data: books, currentPage: page, totalItems: books.length };
+    const totalItems = await query.countDocuments();
+    return { data: books, currentPage: page, totalItems: totalItems };
   } catch (error) {
     throw new Error(error);
   }

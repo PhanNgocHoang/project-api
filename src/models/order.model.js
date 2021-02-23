@@ -8,7 +8,7 @@ const OrderSchema = new Schema(
       required: true,
       ref: "books",
     },
-    customerId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "users",
@@ -16,6 +16,7 @@ const OrderSchema = new Schema(
     price: { type: Number, required: true },
     startedAt: { type: Date, required: true },
     endAt: { type: Date, required: true },
+    totalDate: { type: Number, required: true },
   },
   {
     timestamps: true,
