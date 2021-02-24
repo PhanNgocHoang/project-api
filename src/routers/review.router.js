@@ -10,6 +10,7 @@ routers.post("/create", async (req, res) => {
     const reviewData = join.object({
       user: join.string().required(),
       content: join.string().required(),
+      bookId: join.string().required(),
     });
     const newData = await reviewData.validate(req.body);
     if (newData.error) {
