@@ -2,7 +2,8 @@ const Reviews = require("../../models/review.model");
 
 module.exports.create = async (reviewData) => {
   const newReview = new Reviews(reviewData);
-  return await newReview.save();
+  const review = await newReview.save();
+  return await Reviews.findOne({ _id: review._id }).populate({ path: "user" });
 };
 module.exports.getReviewByBookId = async (bookId, page, limit) => {
   const reviews = await Reviews.find({ bookId: bookId })
