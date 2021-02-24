@@ -7,7 +7,8 @@ const {
   findBooksById,
   findBooksByName,
   getBooks,
-  getNewBook,
+  favoriteBook,
+  myBookFavorite,
 } = require("../services/admin/admin.services.books");
 
 routers.get("/", async (req, res) => {
@@ -100,9 +101,26 @@ routers.put("/:bookId", async (req, res, next) => {
     await updateBook(req.params.authorId, newData.value);
     return res.status(200).json({ message: "Update Book successfully" });
   } catch (error) {
-    next(error);
     return res.status(500).json({ message: error.message });
   }
 });
-
+routers.put("/favorite", async (req, res) => {
+  try {
+    const favoriteResult = await favoriteBook(req.body.bookId, req.body.userId);
+    return res.status(200).json({ result: favoriteResult });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+routers.get("/myBookFavorite/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const result = await myBookFavorite(userId, page, limit);
+    return res.status(200).json({ data: result });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
 module.exports = routers;
