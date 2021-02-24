@@ -16,7 +16,6 @@ routers.get("/getAll", async (req, res, next) => {
     const bookTypes = await getAllBookTypes();
     return res.status(200).json({ data: bookTypes });
   } catch (error) {
-    next(error);
     return res.status(error.statusCode).json({ message: error.message });
   }
 });
@@ -40,7 +39,6 @@ routers.post("/createtypebook", async (req, res, next) => {
     await createTypeBook(newData.value);
     return res.status(200).json({ message: "Create type book successfully" });
   } catch (error) {
-    next(error);
     return res.status(error.statusCode).json({ message: error.message });
   }
 });
@@ -52,7 +50,6 @@ routers.get("/", async (req, res, next) => {
     const result = await typesBook(page, limit, searchKey);
     return res.status(200).json({ data: result });
   } catch (error) {
-    next(error);
     return res.status(error.statusCode).json({ message: error.message });
   }
 });
@@ -61,7 +58,6 @@ routers.get("/:typebookId", async (req, res, next) => {
     const typebook = await getTypeBookDetail(req.params.typebookId);
     return res.status(200).json({ data: typebook });
   } catch (error) {
-    next(error);
     return res.status(error.statusCode).json({ message: error.message });
   }
 });
@@ -71,7 +67,6 @@ routers.get("/books/:typebookId", async (req, res, next) => {
     const typebook = await getBookTypebook(req.params.typebookId, page);
     return res.status(200).json({ data: typebook });
   } catch (error) {
-    next(error);
     return res.status(error.statusCode).json({ message: error.message });
   }
 });
@@ -95,7 +90,6 @@ routers.put("/:typebookId", async (req, res, next) => {
     await updateTypeBook(req.params.typebookId, typebookValidate.value);
     return res.status(200).json({ message: "Update type book successfully" });
   } catch (error) {
-    next(error);
     return res.status(error.statusCode).json({ message: error.message });
   }
 });
@@ -104,7 +98,6 @@ routers.delete("/:typebookId", async (req, res, next) => {
     await deleteTypeBook(req.params.typebookId);
     return res.status(200).json({ message: "Delete type book successfully" });
   } catch (error) {
-    next(error);
     return res.status(error.statusCode).json({ message: error.message });
   }
 });

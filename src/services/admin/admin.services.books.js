@@ -106,5 +106,8 @@ module.exports.myBookFavorite = async (userId, page, limit) => {
     .populate({ path: "authors", select: "authorName" })
     .populate({ path: "publisher", select: "publisherName" })
     .populate({ path: " book_type", select: "type_name" });
+  const totalItems = await Books.find({
+    myBookFavorite: { $in: [userId] },
+  }).countDocuments();
   return { data: books, currentPage: page, totalItems: totalItems };
 };
