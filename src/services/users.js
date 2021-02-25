@@ -38,8 +38,7 @@ module.exports.register = async (
       photoUrl: photoUrl,
     });
     await user.save((err, data) => {
-      if (err) console.log("error", err);
-      console.log(data);
+      if (err) throw new Error(error.message);
     });
   } catch (error) {
     throw new Error(error.message);

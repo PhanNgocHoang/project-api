@@ -42,7 +42,7 @@ routers.post("/register", async (req, res, next) => {
       return res.status(400).json({ message: "Email is exist" });
     }
     if (userData.error) {
-      return res.status(400).json({ message: newData.error.message });
+      return res.status(400).json({ message: userData.error.message });
     }
     await AuthService.register(
       userData.email,
@@ -54,7 +54,7 @@ routers.post("/register", async (req, res, next) => {
     );
     return res.status(200).json({ message: "Registration successfully" });
   } catch (error) {
-    return res.status(500).json({ message: newData.error.message });
+    return res.status(500).json({ message: error.message });
   }
 });
 
