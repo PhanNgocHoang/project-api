@@ -17,7 +17,7 @@ routers.post("/create", async (req, res) => {
       return res.status(400).json({ message: newData.error.message });
     }
     const review = await create(newData.value);
-    return res.status(200).json({ reivew: review });
+    return res.status(200).json({ review: review });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
