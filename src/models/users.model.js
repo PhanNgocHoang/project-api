@@ -17,7 +17,11 @@ const UserSchema = new Schema(
       enum: ["ADMIN", "USER"],
       default: "USER",
     },
-    photoUrl: { type: String },
+    photoUrl: {
+      type: String,
+      default:
+        "https://storage.googleapis.com/e-library-705ec.appspot.com/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png",
+    },
     money: { type: Number, default: 0 },
   },
   {

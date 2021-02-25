@@ -33,6 +33,7 @@ routers.post("/register", async (req, res, next) => {
         displayName: joi.string().required(),
         role: joi.string().required(),
         photoUrl: joi.string(),
+        dob: joi.date().required(),
       })
       .unknown();
     const userData = await bodySchema.validateAsync(req.body);
