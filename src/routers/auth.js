@@ -1,9 +1,9 @@
 const routers = require("express").Router();
 const AuthService = require("../services/users");
 const joi = require("@hapi/joi");
-const passport = require("passport");
 const { authMiddleware } = require("../middlewares/auth");
 const axios = require("axios");
+const User = require("../models/users.model");
 
 routers.get("/me", authMiddleware(true), (req, res, next) => {
   res.status(200).json(req.user);
@@ -59,59 +59,69 @@ routers.post("/register", async (req, res, next) => {
 });
 
 routers.post("/google", async (req, res) => {
-  const response = await axios.default.get(
-    `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.body.access_token}`
-  );
-  response.data;
+  try {
+    const response = await axios.default.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.body.access_token}`
+    );
+    if (response.data) {
+      const user = await AuthService.findUserByGoogleId(response.data.id);
+      if (user != null) {
+        const token = AuthService.encodedToken(user.role, user.email, user._id);
+        return res.status(200).json({ user: user, token: token });
+      } else {
+        const newUser = new User({
+          googleId: response.data.id,
+          email: response.data.email,
+          displayName: response.data.name,
+          photoUrl: response.data.picture,
+        });
+        const userData = await newUser.save();
+        const token = AuthService.encodedToken(
+          userData.role,
+          userData.email,
+          userData._id
+        );
+        return res.status(200).json({ user: userData, token: token });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 });
-
-routers.get(
-  "/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
-
-routers.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  const token = AuthService.encodedToken(
-    req.user.role,
-    req.user.email,
-    req.user._id
-  );
-  const html = `<html>
-      <script>
-        // Save JWT to localStorage
-        window.localStorage.setItem('token', '${token}');
-        // Redirect browser to root of application
-        window.location.href = '/';
-      </script>
-    </html>  `;
-  res.send(html);
+routers.post("/facebook", async (req, res) => {
+  try {
+    const access_token = req.body.access_token;
+    const userId = req.body.user_id;
+    const response = await axios.default.get(
+      `https://graph.facebook.com/${userId}?fields=name,email,picture&access_token=${access_token}`
+    );
+    if (response.data) {
+      const user = await AuthService.findUserByFacebookId(response.data.id);
+      if (user != null) {
+        const token = AuthService.encodedToken(user.role, user.email, user._id);
+        return res.status(200).json({ user: user, token: token });
+      }
+      const newUser = new User({
+        fbId: response.data.id,
+        email: response.data.email,
+        displayName: response.data.name,
+        photoUrl: response.data.picture.data.url,
+      });
+      const userData = await newUser.save();
+      const token = AuthService.encodedToken(
+        userData.role,
+        userData.email,
+        userData._id
+      );
+      return res.status(200).json({ user: userData, token: token });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 routers.get("/me/:id", async (req, res) => {
   const me = await AuthService.getMe(req.params.id);
   return res.status(200).json({ user: me });
 });
-routers.get("/facebook", passport.authenticate("facebook"));
-routers.get(
-  "/facebook/redirect",
-  passport.authenticate("facebook"),
-  (req, res) => {
-    const token = AuthService.encodedToken(
-      req.user.role,
-      req.user.email,
-      req.user._id
-    );
-    const html = `<html>
-      <script>
-        // Save JWT to localStorage
-        window.localStorage.setItem('token', '${token}');
-        // Redirect browser to root of application
-        window.location.href = 'https://e-libraryapi.herokuapp.com';
-      </script>
-    </html>  `;
-    res.send(html);
-  }
-);
 module.exports = routers;

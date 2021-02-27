@@ -39,7 +39,7 @@ routers.post("/createtypebook", async (req, res, next) => {
     await createTypeBook(newData.value);
     return res.status(200).json({ message: "Create type book successfully" });
   } catch (error) {
-    return res.status(error.statusCode).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 });
 routers.get("/", async (req, res, next) => {
@@ -50,7 +50,7 @@ routers.get("/", async (req, res, next) => {
     const result = await typesBook(page, limit, searchKey);
     return res.status(200).json({ data: result });
   } catch (error) {
-    return res.status(error.statusCode).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 });
 routers.get("/:typebookId", async (req, res, next) => {
@@ -83,7 +83,6 @@ routers.put("/:typebookId", async (req, res, next) => {
       type_name: req.body.type_name,
     });
     if (typebookValidate.error) {
-      console.log(typebookValidate.error);
       typebookValidate.error.message = "Invalid type name";
       return res.status(400).json({ message: typebookValidate.error.message });
     }
