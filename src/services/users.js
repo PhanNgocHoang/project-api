@@ -2,9 +2,7 @@ const JWT = require("jsonwebtoken");
 const User = require("../models/users.model");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const { jwt_secret, authGoogle, authFacebook } = require("../config/config");
+const { jwt_secret } = require("../config/config");
 module.exports.encodedToken = (role, email, id) => {
   return JWT.sign(
     {
@@ -79,3 +77,12 @@ module.exports.findUserByFacebookId = async (facebookId) => {
   const user = await User.findOne({ fbId: facebookId });
   return user;
 };
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});

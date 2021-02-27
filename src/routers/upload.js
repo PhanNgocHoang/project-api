@@ -2,16 +2,8 @@ const routers = require("express").Router();
 const multer = require("multer");
 const fs = require("fs");
 const createError = require("http-errors");
-const cloudinary = require("cloudinary");
 const { cloudinaryConfig } = require("../config/config");
 const firebase = require("../config/firebase");
-const { Storage } = require("@google-cloud/storage");
-
-cloudinary.config({
-  cloud_name: cloudinaryConfig.cloud_name,
-  api_key: cloudinaryConfig.api_key,
-  api_secret: cloudinaryConfig.api_secret,
-});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
