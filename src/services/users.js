@@ -71,6 +71,14 @@ module.exports.forgetPassword = async (email, newPassword) => {
     throw new Error(error);
   }
 };
+module.exports.findUserByGoogleId = async (googleId) => {
+  const user = await User.findOne({ googleId: googleId });
+  return user;
+};
+module.exports.findUserByFacebookId = async (facebookId) => {
+  const user = await User.findOne({ fbId: facebookId });
+  return user;
+};
 passport.use(
   new GoogleStrategy(
     {

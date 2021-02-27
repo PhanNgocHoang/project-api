@@ -21,7 +21,9 @@ const BookSchema = new Schema(
     description: { type: String, required: true },
     images: { type: String, required: true },
     file: { type: String, required: true },
-    userFavorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+    userFavorite: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "users", default: [] },
+    ],
   },
   {
     timestamps: true,

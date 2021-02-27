@@ -1,9 +1,9 @@
 const routers = require("express").Router();
 const AuthService = require("../services/users");
 const joi = require("@hapi/joi");
-const createError = require("http-errors");
 const passport = require("passport");
 const { authMiddleware } = require("../middlewares/auth");
+const axios = require("axios");
 
 routers.get("/me", authMiddleware(true), (req, res, next) => {
   res.status(200).json(req.user);
@@ -58,6 +58,13 @@ routers.post("/register", async (req, res, next) => {
   }
 });
 
+routers.post("/google", async (req, res) => {
+  const response = await axios.default.get(
+    `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.body.access_token}`
+  );
+  response.data;
+});
+
 routers.get(
   "/google",
   passport.authenticate("google", {
@@ -76,7 +83,7 @@ routers.get("/google/redirect", passport.authenticate("google"), (req, res) => {
         // Save JWT to localStorage
         window.localStorage.setItem('token', '${token}');
         // Redirect browser to root of application
-        window.location.href = 'https://e-libraryapi.herokuapp.com/';
+        window.location.href = '/';
       </script>
     </html>  `;
   res.send(html);
