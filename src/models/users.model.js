@@ -21,7 +21,7 @@ const UserSchema = new Schema(
       default:
         "https://storage.googleapis.com/e-library-705ec.appspot.com/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png",
     },
-    money: { type: Number, default: 0 },
+    wallet: { type: Number, default: 0 },
   },
   {
     timestamps: true,

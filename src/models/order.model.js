@@ -17,6 +17,7 @@ const OrderSchema = new Schema(
     startedAt: { type: Date, required: true },
     endAt: { type: Date, required: true },
     totalDate: { type: Number, required: true },
+    status: { type: Boolean, default: true },
   },
   {
     timestamps: true,
