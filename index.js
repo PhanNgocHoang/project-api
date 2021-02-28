@@ -30,7 +30,9 @@ cron.schedule("0 0 0 * * *", async () => {
 });
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.get("/elibraryApi", (req, res) => {
+  return res.send("HELLO WORD");
+});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());

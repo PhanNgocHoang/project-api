@@ -77,6 +77,14 @@ module.exports.findUserByFacebookId = async (facebookId) => {
   const user = await User.findOne({ fbId: facebookId });
   return user;
 };
+module.exports.findUserById = async (id) => {
+  const user = await User.findOne({ _id: id });
+  return user;
+};
+module.exports.updateWallet = async (userId, newWallet) => {
+  const user = await User.updateOne({ _id: userId }, { wallet: newWallet });
+  return user;
+};
 passport.serializeUser((user, done) => {
   done(null, user);
 });
