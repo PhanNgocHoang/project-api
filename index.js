@@ -25,7 +25,7 @@ mongoose.connect(
   }
 );
 
-cron.schedule("0 0 0 * * *", async () => {
+cron.schedule("0 1 * * *", async () => {
   await changeOrderStatus();
 });
 app.use(passport.initialize());

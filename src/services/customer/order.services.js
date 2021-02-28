@@ -21,7 +21,7 @@ module.exports.getOrderByUser = async (userId, page, limit) => {
 };
 module.exports.changeOrderStatus = async () => {
   await Order.updateMany(
-    { endAt: { $lte: ISODate(new Date()) } },
+    { endAt: { $lte: new Date().toISOString() } },
     { status: false }
   );
 };

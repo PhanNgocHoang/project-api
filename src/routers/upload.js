@@ -2,7 +2,6 @@ const routers = require("express").Router();
 const multer = require("multer");
 const fs = require("fs");
 const createError = require("http-errors");
-const { cloudinaryConfig } = require("../config/config");
 const firebase = require("../config/firebase");
 
 const storage = multer.diskStorage({
