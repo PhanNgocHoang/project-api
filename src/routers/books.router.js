@@ -105,7 +105,7 @@ routers.put("/:bookId", async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 });
-routers.put("/favorite", async (req, res) => {
+routers.post("/favorite", async (req, res) => {
   try {
     const favoriteResult = await favoriteBook(req.body.bookId, req.body.userId);
     return res.status(200).json({ result: favoriteResult });

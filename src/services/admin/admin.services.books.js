@@ -96,18 +96,20 @@ module.exports.getNewBook = async () => {
   return newBook;
 };
 module.exports.favoriteBook = async (bookId, userId) => {
+  console.log(1);
+
   const book = await Books.findOne({ _id: bookId });
   const user = book.userFavorite.find((user) => (user = userId));
   if (user) {
-    await Books.updateOne(
-      { _id: bookId },
-      { $pull: { userFavorite: { $in: [userId] } } }
-    );
-    return "Favorite Successfully";
+    book.userFavorite.pull(userId);
   } else {
-    await Books.updateOne({ _id: bookId }, { $push: { userFavorite: userId } });
-    return "Unfavorite Successfully";
+    book.userFavorite.push(userId);
   }
+  await book.save();
+  return await Books.findOne({ _id: bookId })
+    .populate({ path: "authors", select: "authorName" })
+    .populate({ path: "publisher", select: "publisherName" })
+    .populate({ path: " book_type", select: "type_name" });
 };
 module.exports.myBookFavorite = async (userId, page, limit) => {
   const books = await Books.find({ myBookFavorite: { $in: [userId] } })
