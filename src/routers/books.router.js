@@ -9,6 +9,7 @@ const {
   getBooks,
   favoriteBook,
   myBookFavorite,
+  findFavoriteBookById,
 } = require("../services/admin/admin.services.books");
 
 routers.get("/", async (req, res) => {
@@ -118,9 +119,23 @@ routers.get("/myBookFavorite/:userId", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
     const result = await myBookFavorite(userId, page, limit);
-    return res.status(200).json({ data: result });
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 });
+// routers.get("/myBookFavoriteLocal", async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 5;
+//     const ids = req.body.ids || ["60223da18d27e23237640ba4"];
+//     console.log(ids);
+
+//     const books = await findFavoriteBookById(ids, page, limit);
+//     return res.status(200).json(books);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ message: error.message });
+//   }
+// });
 module.exports = routers;

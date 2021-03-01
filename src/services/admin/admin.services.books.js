@@ -109,5 +109,32 @@ module.exports.myBookFavorite = async (userId, page, limit) => {
   const totalItems = await Books.find({
     myBookFavorite: { $in: [userId] },
   }).countDocuments();
-  return { data: books, currentPage: page, totalItems: totalItems };
+  return {
+    data: books,
+    currentPage: page,
+    totalItems: totalItems,
+    perPage: limit,
+  };
+};
+module.exports.findFavoriteBookById = async (ids, page, limit) => {
+  let totalItems = 0;
+  let books = [];
+  // const query = Books.find();
+  // if (ids.length > 0) {
+  //   books = await query
+  //     .find({ _id: { $in: ids } })
+  //     .skip((page - 1) * limit)
+  //     .limit(limit)
+  //     .sort({ _id: -1 })
+  //     .populate({ path: "authors", select: "authorName" })
+  //     .populate({ path: "publisher", select: "publisherName" })
+  //     .populate({ path: " book_type", select: "type_name" });
+  //   totalItems = await query.find({ _id: { $in: ids } }).countDocuments();
+  // }
+  return {
+    data: books,
+    currentPage: page,
+    totalItems: totalItems,
+    perPage: limit,
+  };
 };
