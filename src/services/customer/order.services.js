@@ -25,3 +25,17 @@ module.exports.changeOrderStatus = async () => {
     { status: false }
   );
 };
+module.exports.getMyBook = async (userId, page, limit) => {
+  const query = Order.find({ userId: userId, status: true });
+  const orders = await query
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .sort({ _id: -1 });
+  const totalItems = await query.countDocuments();
+  return {
+    data: orders,
+    currentPage: page,
+    totalItems: totalItems,
+    perPage: limit,
+  };
+};

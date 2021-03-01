@@ -29,10 +29,6 @@ mongoose.connect(
 cron.schedule("0 0 * * *", async () => {
   await changeOrderStatus();
 });
-
-cron.schedule("0 29 * * *", () => {
-  axios.default.get("https://e-libraryapi.herokuapp.com/");
-});
 app.use(passport.initialize());
 app.use(passport.session());
 app.get("/", (req, res) => {

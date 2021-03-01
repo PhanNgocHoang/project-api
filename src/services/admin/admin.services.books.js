@@ -51,13 +51,23 @@ module.exports.getBooks = async (
 ) => {
   try {
     const skip = (page - 1) * perPage;
-    const query = Books.find({
-      $and: [
-        {
-          book_name: { $regex: searchKey, $options: "mis" },
-        },
-      ],
-    });
+    const query = Books.find(
+      {
+        $and: [
+          {
+            book_name: { $regex: searchKey, $options: "mis" },
+          },
+        ],
+      },
+      [
+        "book_name",
+        "book_type",
+        "publisher",
+        "status",
+        "description",
+        "userFavorite",
+      ]
+    );
     if (publisher.length > 0) {
       query.find({ publisher: { $in: publisher } });
     }
@@ -73,7 +83,8 @@ module.exports.getBooks = async (
       .limit(perPage)
       .populate({ path: "authors", select: "authorName" })
       .populate({ path: "publisher", select: "publisherName" })
-      .populate({ path: " book_type", select: "type_name" });
+      .populate({ path: " book_type", select: "type_name" })
+      .populate({ path: "userFavorite", select: "_id" });
     const totalItems = await query.countDocuments();
     return { data: books, currentPage: page, totalItems: totalItems };
   } catch (error) {
