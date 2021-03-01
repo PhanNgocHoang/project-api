@@ -7,6 +7,7 @@ const routers = require("./src/routers/index");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const cron = require("node-cron");
+const axios = require("axios");
 const { changeOrderStatus } = require("./src/services/customer/order.services");
 
 const PORT = process.env.PORT || 4000;
@@ -25,8 +26,12 @@ mongoose.connect(
   }
 );
 
-cron.schedule("0 1 * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   await changeOrderStatus();
+});
+
+cron.schedule("0 29 * * *", () => {
+  axios.default.get("https://e-libraryapi.herokuapp.com/");
 });
 app.use(passport.initialize());
 app.use(passport.session());
