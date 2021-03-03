@@ -12,8 +12,8 @@ const authMiddleware = (required) => {
     const token = req.headers.authorization.split(" ")[1];
     try {
       const decideObj = verifyToken(token);
-      const email = decideObj.iss;
-      User.findOne({ email: email })
+      const id = decideObj.id;
+      User.findOne({ _id: id })
         .exec()
         .then((user) => {
           req.user = user._doc;

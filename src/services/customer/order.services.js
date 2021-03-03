@@ -10,7 +10,11 @@ module.exports.getOrderByUser = async (userId, page, limit) => {
   const orders = await query
     .skip((page - 1) * limit)
     .limit(limit)
-    .sort({ _id: -1 });
+    .sort({ _id: -1 })
+    .populate({
+      path: "bookId",
+      select: ["book_name", "images", "description", "userFavorite"],
+    });
   const totalItems = await query.countDocuments();
   return {
     data: orders,
@@ -25,12 +29,16 @@ module.exports.changeOrderStatus = async () => {
     { status: false }
   );
 };
-module.exports.getMyBook = async (userId, page, limit) => {
-  const query = Order.find({ userId: userId, status: true });
+module.exports.getMyBook = async (userId, page, limit, status) => {
+  const query = Order.find({ userId: userId, status: status });
   const orders = await query
     .limit(limit)
     .skip((page - 1) * limit)
-    .sort({ _id: -1 });
+    .sort({ _id: -1 })
+    .populate({
+      path: "bookId",
+      select: ["book_name", "images", "description", "userFavorite"],
+    });
   const totalItems = await query.countDocuments();
   return {
     data: orders,
@@ -38,4 +46,12 @@ module.exports.getMyBook = async (userId, page, limit) => {
     totalItems: totalItems,
     perPage: limit,
   };
+};
+module.exports.getBookByOrderId = async (orderId, userId) => {
+  const order = await Order.findOne({
+    _id: orderId,
+    userId: userId,
+    status: true,
+  }).populate({ path: "bookId", select: "file" });
+  return order;
 };

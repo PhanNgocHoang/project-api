@@ -82,8 +82,10 @@ module.exports.findUserById = async (id) => {
   return user;
 };
 module.exports.updateWallet = async (userId, newWallet) => {
-  const user = await User.updateOne({ _id: userId }, { wallet: newWallet });
-  return user;
+  const user = await User.findOne({ _id: userId });
+  user.wallet = user.wallet + newWallet;
+  await user.save();
+  return user.wallet;
 };
 passport.serializeUser((user, done) => {
   done(null, user);

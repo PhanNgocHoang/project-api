@@ -2,9 +2,8 @@ const routers = require("express").Router();
 const {
   createOrder,
   getOrderByUser,
-  updateWallet,
 } = require("../services/customer/order.services");
-const { findUserById } = require("../services/users");
+const { findUserById, updateWallet } = require("../services/users");
 const join = require("joi");
 routers.post("/create", async (req, res) => {
   try {

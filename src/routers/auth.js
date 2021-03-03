@@ -21,7 +21,7 @@ routers.post("/login", async (req, res, next) => {
     }
     return res.status(200).json({ user: user.userInfo, token: user.token });
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: error.message });
   }
 });
 routers.post("/register", async (req, res, next) => {
@@ -83,6 +83,8 @@ routers.post("/google", async (req, res) => {
         );
         return res.status(200).json({ user: userData, token: token });
       }
+    } else {
+      return res.status(400).json({ message: "" });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });

@@ -66,6 +66,8 @@ module.exports.getBooks = async (
         "status",
         "description",
         "userFavorite",
+        "images",
+        "price",
       ]
     );
     if (publisher.length > 0) {
@@ -96,11 +98,9 @@ module.exports.getNewBook = async () => {
   return newBook;
 };
 module.exports.favoriteBook = async (bookId, userId) => {
-  console.log(1);
-
   const book = await Books.findOne({ _id: bookId });
-  const user = book.userFavorite.find((user) => (user = userId));
-  if (user) {
+  const user = book.userFavorite.some((user) => user == userId);
+  if (user == true) {
     book.userFavorite.pull(userId);
   } else {
     book.userFavorite.push(userId);
@@ -112,7 +112,7 @@ module.exports.favoriteBook = async (bookId, userId) => {
     .populate({ path: " book_type", select: "type_name" });
 };
 module.exports.myBookFavorite = async (userId, page, limit) => {
-  const books = await Books.find({ myBookFavorite: { $in: [userId] } })
+  const books = await Books.find({ userFavorite: { $in: [userId] } })
     .skip((page - 1) * limit)
     .limit(limit)
     .sort({ _id: -1 })

@@ -17,11 +17,13 @@ routers.post("/updateWallet", async (req, res) => {
       payeeEmail: paymentInfo.payee.email,
     };
     await create(transactionData);
-    await updateWallet(
+    const newWallet = await updateWallet(
       req.body.userId,
       parseFloat(paymentInfo.amount.total) * 10
     );
-    return res.status(200).json({ message: "Add coins successfully" });
+    return res
+      .status(200)
+      .json({ message: "Add coins successfully", userWallet: newWallet });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

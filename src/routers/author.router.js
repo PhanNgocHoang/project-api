@@ -9,7 +9,7 @@ const {
   findAuthorByName,
   getAllAuthor,
 } = require("../services/admin/admin.services.author");
-
+const { authMiddleware } = require("../middlewares/auth");
 routers.get("/getAll", async (req, res, next) => {
   try {
     const authors = await getAllAuthor();
@@ -20,7 +20,7 @@ routers.get("/getAll", async (req, res, next) => {
   }
 });
 
-routers.get("/", async (req, res, next) => {
+routers.get("/", authMiddleware(true), async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
@@ -33,7 +33,7 @@ routers.get("/", async (req, res, next) => {
   }
 });
 
-routers.delete("/:authId", async (req, res, next) => {
+routers.delete("/:authId", authMiddleware(true), async (req, res, next) => {
   try {
     await deleteAuthor(req.params.authId);
     return res.status(200).json({ message: "Delete author successfully" });
@@ -43,7 +43,7 @@ routers.delete("/:authId", async (req, res, next) => {
   }
 });
 
-routers.get("/:authorId", async (req, res, next) => {
+routers.get("/:authorId", authMiddleware(true), async (req, res, next) => {
   try {
     const author = await findAuthorById(req.params.authorId);
     return res.status(200).json({ data: author });
@@ -53,7 +53,7 @@ routers.get("/:authorId", async (req, res, next) => {
   }
 });
 
-routers.post("/createAuthor", async (req, res, next) => {
+routers.post("/createAuthor", authMiddleware(true), async (req, res, next) => {
   try {
     const authorData = join.object({
       authorName: join
@@ -78,7 +78,7 @@ routers.post("/createAuthor", async (req, res, next) => {
   }
 });
 
-routers.put("/:authorId", async (req, res, next) => {
+routers.put("/:authorId", authMiddleware(true), async (req, res, next) => {
   try {
     const authorData = join.object({
       authorName: join
