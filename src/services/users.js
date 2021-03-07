@@ -60,12 +60,20 @@ module.exports.getMe = async (id) => {
 };
 module.exports.login = async (email, password) => {
   const user = await User.findOne({ email: email });
-  const result = await bcrypt.compare(password, user.password);
-  if (user && result == true) {
-    return {
-      userInfo: user,
-      token: this.encodedToken(user.role, user.email, user._id),
-    };
+  if ((user && user.fbId !== null) || (user && user.googleId !== null)) {
+    throw new Error(
+      "Please using social network google or facebook to sign in."
+    );
+  } else if (user) {
+    const result = await bcrypt.compare(password, user.password);
+    if (user && result == true) {
+      return {
+        userInfo: user,
+        token: this.encodedToken(user.role, user.email, user._id),
+      };
+    }
+  } else {
+    return undefined;
   }
 };
 module.exports.findUserByEmail = async (email) => {

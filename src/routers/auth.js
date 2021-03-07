@@ -259,7 +259,7 @@ routers.put("/forgetPassword", async (req, res) => {
         templateId: "d-4bf79d04ca8c4b1b90b5a4a2f33a0df9",
         dynamicTemplateData: {
           displayName: user.displayName,
-          password: newPassword,
+          password: newPassword.toString(),
         },
         from: {
           email: "hoangpn.dev@gmail.com",
