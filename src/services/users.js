@@ -42,6 +42,18 @@ module.exports.register = async (
     throw new Error(error.message);
   }
 };
+module.exports.changePassword = async (userId, crurenPassword, newPassword) => {
+  const user = await User.findOne({ _id: userId });
+  const comparePassword = bcrypt.compareSync(crurenPassword, user.password);
+  if (comparePassword == true) {
+    const salt = await bcrypt.genSalt(10);
+    newPassword = await bcrypt.hash(newPassword, salt);
+    user.password = newPassword;
+    await user.save();
+    return true;
+  }
+  return false;
+};
 module.exports.getMe = async (id) => {
   const me = await User.findById(id);
   return me;
@@ -52,7 +64,7 @@ module.exports.login = async (email, password) => {
   if (user && result == true) {
     return {
       userInfo: user,
-      token: this.encodedToken(user.role, user.email, user.password),
+      token: this.encodedToken(user.role, user.email, user._id),
     };
   }
 };
@@ -60,11 +72,12 @@ module.exports.findUserByEmail = async (email) => {
   const user = await User.findOne({ email: email });
   return user;
 };
-module.exports.forgetPassword = async (email, newPassword) => {
+module.exports.forgetPassword = async (_id, newPassword) => {
   try {
     const salt = await bcrypt.genSalt(10);
     newPassword = await bcrypt.hash(newPassword, salt);
-    await User.updateOne({ email: email }, { password: newPassword });
+    await User.updateOne({ _id: _id }, { password: newPassword });
+    return true;
   } catch (error) {
     throw new Error(error);
   }
@@ -86,6 +99,10 @@ module.exports.updateWallet = async (userId, newWallet) => {
   user.wallet = user.wallet + newWallet;
   await user.save();
   return user.wallet;
+};
+module.exports.updateMe = async (user, payLoad) => {
+  await User.updateOne({ _id: user._id }, { ...user, ...payLoad });
+  return await User.findOne({ _id: user._id });
 };
 passport.serializeUser((user, done) => {
   done(null, user);

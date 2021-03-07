@@ -48,7 +48,7 @@ routers.delete("/:bookId", authMiddleware(true), async (req, res, next) => {
   }
 });
 
-routers.get("/:bookId", authMiddleware(true), async (req, res, next) => {
+routers.get("/:bookId", async (req, res, next) => {
   try {
     const book = await findBooksById(req.params.bookId);
     return res.status(200).json({ data: book });

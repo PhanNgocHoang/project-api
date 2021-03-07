@@ -21,17 +21,19 @@ routers.post("/create", async (req, res) => {
     }
     const user = await findUserById(newData.value.userId);
     if (user == null) {
-      return res.status(404).json({ message: "User do not exist" });
+      return res.status(400).json({ message: "User do not exist" });
     }
     const userWallet = user.wallet - newData.value.price;
     if (userWallet < 0) {
       return res
-        .status(404)
+        .status(400)
         .json({ message: "Your eCoins are not enough to borrow this book" });
     }
     await updateWallet(newData.value.userId, userWallet);
-    await createOrder(newData.value);
-    return res.status(200).json({ message: "Borrow successfully" });
+    const order = await createOrder(newData.value);
+    return res
+      .status(200)
+      .json({ message: "Borrow successfully", order: order });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

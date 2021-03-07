@@ -1,4 +1,5 @@
 const Order = require("../../models/order.model");
+const moment = require("moment");
 
 module.exports.createOrder = async (orderInfo) => {
   const newOrder = new Order(orderInfo);
@@ -25,7 +26,9 @@ module.exports.getOrderByUser = async (userId, page, limit) => {
 };
 module.exports.changeOrderStatus = async () => {
   await Order.updateMany(
-    { endAt: { $lte: new Date().toISOString() } },
+    {
+      endAt: { $lte: moment(new Date()).format("YYYY-MM-DD HH:MM").toString() },
+    },
     { status: false }
   );
 };

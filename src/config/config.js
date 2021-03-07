@@ -1,10 +1,8 @@
 module.exports = {
   jwt_secret: "e-library@123",
   payPalConfig: {
-    client_id:
-      "AfLlRTEa5ycxVw8FqhjFLlRJrNDdk_BLpe_oilcIn4M8kIhDMQVEptAbDKbeiKN-FfgfL9ruRdge-zGF",
-    client_secret:
-      "EB77G4HQ57rtXPDBQDmzutyuxQvI39t-fuVpakZ6y8VytqLsm3YdazYjf-B-PGcx1qysb6FYVL7Fh-Uu",
+    client_id: process.env.PAYPAL_CLIENT_ID,
+    client_secret: process.env.PAYPAL_CLIENT_SECRET,
   },
   firebase: {
     project_id: process.env.FIREBASE_PROJECT_ID,
