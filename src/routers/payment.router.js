@@ -1,6 +1,9 @@
 const routers = require("express").Router();
 const { checkPayment } = require("../services/customer/payment.services");
-const { create } = require("../services/customer/transaction.services");
+const {
+  create,
+  getTransaction,
+} = require("../services/customer/transaction.services");
 const { updateWallet } = require("../services/users");
 
 routers.post("/updateWallet", async (req, res) => {
@@ -28,5 +31,17 @@ routers.post("/updateWallet", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
+routers.get("/history", async (req, res) => {
+  try {
+    const user = req.user;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const transactions = await getTransaction(user._id, limit, page);
+    return res.status(200).json(transactions);
+  } catch (error) {
+    console.log(error);
 
+    return res.status(500).json({ message: error.message });
+  }
+});
 module.exports = routers;

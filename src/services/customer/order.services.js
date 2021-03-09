@@ -55,6 +55,13 @@ module.exports.getBookByOrderId = async (orderId, userId) => {
     _id: orderId,
     userId: userId,
     status: true,
-  }).populate({ path: "bookId", select: "file" });
+  }).populate({
+    path: "bookId",
+    select: ["file", "fileType", "book_name", "images", "authors"],
+    populate: {
+      path: "authors",
+      select: "authorName",
+    },
+  });
   return order;
 };

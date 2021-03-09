@@ -1,10 +1,10 @@
 const { payPalConfig } = require("../../config/config");
 const axios = require("axios");
-const qs = require("qs");
+const querystring = require("querystring");
 
 module.exports.checkPayment = async (paymentId) => {
   try {
-    const data = qs.stringify({
+    const data = querystring.stringify({
       grant_type: "client_credentials",
     });
     const response = await axios.default.post(

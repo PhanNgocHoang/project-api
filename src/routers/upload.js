@@ -10,10 +10,15 @@ const storage = multer.diskStorage({
   },
 });
 const fileFilterPDF = (req, file, cb) => {
-  if (file.mimetype === "application/pdf") {
+  if (
+    file.mimetype === "application/pdf" ||
+    file.mimetype === "audio/basic" ||
+    file.mimetype === "audio/mpeg" ||
+    file.mimetype === "audio/vorbis"
+  ) {
     return cb(null, true);
   } else {
-    return cb(createError(400, "Please only upload PDF file"), false);
+    return cb(createError(400, "Please only upload PDF file, or MP4"), false);
   }
 };
 const fileFilterImages = (req, file, cb) => {
@@ -59,9 +64,17 @@ routers.post("/pdf", uploadPDF.single("doc"), async (req, res, next) => {
       destination: req.file.originalname,
     });
     fs.unlinkSync(req.file.path);
-    return res.status(200).json({
-      url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
-    });
+    if (req.file.mimetype == "application/pdf")
+      return res.status(200).json({
+        url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
+        fileType: "pdf",
+      });
+    else {
+      return res.status(200).json({
+        url: `https://storage.googleapis.com/${firebase.bucket.name}/${req.file.originalname}`,
+        fileType: "audio",
+      });
+    }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
