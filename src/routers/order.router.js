@@ -10,7 +10,7 @@ routers.post("/create", async (req, res) => {
     const orderData = join.object({
       userId: join.string().required("User is required"),
       bookId: join.string().required("Book is required"),
-      totalDate: join.number().min(1).required("Total date is required"),
+      totalDate: join.number().required("Total date is required"),
       startedAt: join.date().required(),
       endAt: join.date().required(),
       price: join.number().required(),

@@ -159,7 +159,7 @@ routers.post("/facebook", async (req, res) => {
         userData.email,
         userData._id
       );
-      if (response.data.email || response.data.email != null) {
+      if (response.data.email && response.data.email != null) {
         gridMail
           .send({
             to: {
