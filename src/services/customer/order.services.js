@@ -94,7 +94,7 @@ module.exports.totalTime = async () => {
       },
     },
   ]);
-  return sum.total;
+  return sum[0].total;
 };
 module.exports.totalPrice = async () => {
   const sum = await Order.aggregate([
@@ -105,5 +105,5 @@ module.exports.totalPrice = async () => {
       },
     },
   ]);
-  return sum.total;
+  return sum[0].total;
 };

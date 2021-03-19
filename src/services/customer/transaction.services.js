@@ -28,7 +28,10 @@ module.exports.totalTransaction = async () => {
       },
     },
   ]);
-  return { totalTransaction: totalTransaction, totalMoney: totalMoney.total };
+  return {
+    totalTransaction: totalTransaction,
+    totalMoney: totalMoney[0].total,
+  };
 };
 module.exports.getAllTransaction = async (limit, page, searchKey) => {
   const transactions = await Transaction.find()

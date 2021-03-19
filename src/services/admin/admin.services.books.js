@@ -161,3 +161,6 @@ module.exports.findFavoriteBookById = async (ids, page, limit) => {
     perPage: limit,
   };
 };
+module.exports.totalBook = async () => {
+  return await Books.countDocuments();
+};

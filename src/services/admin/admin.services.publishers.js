@@ -35,3 +35,6 @@ module.exports.findPublisherByName = async (name) => {
 module.exports.getAllPublishers = () => {
   return Publishers.find({}, ["_id", "publisherName"]);
 };
+module.exports.totalPublishers = async () => {
+  return await Publishers.countDocuments();
+};

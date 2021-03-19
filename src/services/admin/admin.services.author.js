@@ -35,3 +35,7 @@ module.exports.findAuthorById = (authorId) => {
 module.exports.getAllAuthor = async () => {
   return await Authors.find({}, ["_id", "authorName"]);
 };
+module.exports.totalAuthor = async () => {
+  const total = await Authors.countDocuments();
+  return total;
+};

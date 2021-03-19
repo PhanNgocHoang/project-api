@@ -46,3 +46,6 @@ module.exports.findTypeBookByTypeName = (typeName) => {
 module.exports.getAllBookTypes = async () => {
   return await TypeBook.find({}, ["_id", "type_name"]);
 };
+module.exports.totalBookType = async () => {
+  return await TypeBook.countDocuments();
+};
