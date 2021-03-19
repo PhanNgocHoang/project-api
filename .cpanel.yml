@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/apieliby/public_html/
+    - export DEPLOYPATH=/home/apieliby/public_html/repositories/Api
     - /bin/cp -R * $DEPLOYPATH
