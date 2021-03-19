@@ -36,7 +36,7 @@ const uploadImage = multer({
 });
 const uploadPDF = multer({
   storage: storage,
-  limits: { fileSize: 1024 * 1024 * 10 },
+  limits: { fileSize: 1024 * 1024 * 50 },
   fileFilter: fileFilterPDF,
 });
 routers.post("/images", uploadImage.single("image"), async (req, res, next) => {

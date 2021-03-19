@@ -1,4 +1,5 @@
 const Order = require("../../models/order.model");
+const User = require("../../models/users.model");
 const moment = require("moment");
 
 module.exports.createOrder = async (orderInfo) => {
@@ -64,4 +65,45 @@ module.exports.getBookByOrderId = async (orderId, userId) => {
     },
   });
   return order;
+};
+module.exports.getAllOrders = async (page, limit, searchKey) => {
+  const users = await User.find({
+    email: { $regex: searchKey, $options: "mis" },
+  }).select("_id");
+  const userId = users.map((user) => user._id);
+  const order = await Order.find({ userId: { $in: userId } })
+    .populate({ path: "userId" })
+    .limit(limit)
+    .skip(limit * (page - 1))
+    .sort({ _id: -1 });
+  const totalItems = await Order.find({
+    userId: { $in: userId },
+  }).countDocuments();
+  return { orders: order, totalItems: totalItems, currentPage: page };
+};
+module.exports.totalOrder = async () => {
+  const total = await Order.countDocuments();
+  return total;
+};
+module.exports.totalTime = async () => {
+  const sum = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        total: { $sum: "$totalDate" },
+      },
+    },
+  ]);
+  return sum.total;
+};
+module.exports.totalPrice = async () => {
+  const sum = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        total: { $sum: "$price" },
+      },
+    },
+  ]);
+  return sum.total;
 };

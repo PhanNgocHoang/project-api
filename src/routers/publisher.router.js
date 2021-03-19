@@ -10,7 +10,7 @@ const {
   getAllPublishers,
 } = require("../services/admin/admin.services.publishers");
 
-routers.get("/getAll", async (req, res, next) => {
+routers.get("/getAll", async (req, res) => {
   try {
     const publishers = await getAllPublishers();
     return res.status(200).json({ data: publishers });
@@ -18,7 +18,7 @@ routers.get("/getAll", async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 });
-routers.get("/", async (req, res, next) => {
+routers.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;

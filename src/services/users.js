@@ -112,6 +112,23 @@ module.exports.updateMe = async (user, payLoad) => {
   await User.updateOne({ _id: user._id }, { ...user, ...payLoad });
   return await User.findOne({ _id: user._id });
 };
+module.exports.getUsers = async (page, limit, searchKey) => {
+  const users = await User.find({
+    email: { $regex: searchKey, $options: "mis" },
+  })
+    .skip(limit * (page - 1))
+    .limit(limit)
+    .sort({ _id: -1 });
+
+  const totalItems = await User.find({
+    email: { $regex: searchKey, $options: "mis" },
+  }).countDocuments();
+  return { data: users, currentPage: page, totalItems: totalItems };
+};
+module.exports.totalUser = async () => {
+  const total = await User.find({ role: "USER" }).countDocuments();
+  return total;
+};
 passport.serializeUser((user, done) => {
   done(null, user);
 });

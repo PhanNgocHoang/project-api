@@ -70,15 +70,26 @@ module.exports.getBooks = async (
         "price",
       ]
     );
+    const queryCount = Books.find({
+      $and: [
+        {
+          book_name: { $regex: searchKey, $options: "mis" },
+        },
+      ],
+    });
     if (publisher.length > 0) {
       query.find({ publisher: { $in: publisher } });
+      queryCount.find({ publisher: { $in: publisher } });
     }
     if (bookType.length > 0) {
       query.find({ book_type: { $in: bookType } });
+      queryCount.find({ book_type: { $in: bookType } });
     }
     if (author.length > 0) {
       query.find({ authors: { $in: author } });
+      queryCount.find({ authors: { $in: author } });
     }
+    const totalItems = await queryCount.countDocuments();
     const books = await query
       .skip(skip)
       .sort({ _id: -1 })
@@ -87,7 +98,6 @@ module.exports.getBooks = async (
       .populate({ path: "publisher", select: "publisherName" })
       .populate({ path: " book_type", select: "type_name" })
       .populate({ path: "userFavorite", select: "_id" });
-    const totalItems = await query.countDocuments();
     return { data: books, currentPage: page, totalItems: totalItems };
   } catch (error) {
     throw new Error(error);

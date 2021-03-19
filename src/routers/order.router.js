@@ -1,7 +1,9 @@
 const routers = require("express").Router();
 const {
   createOrder,
-  getOrderByUser,
+  getAllOrders,
+  totalTime,
+  totalPrice,
 } = require("../services/customer/order.services");
 const { findUserById, updateWallet } = require("../services/users");
 const join = require("joi");
@@ -34,6 +36,17 @@ routers.post("/create", async (req, res) => {
     return res
       .status(200)
       .json({ message: "Borrow successfully", order: order });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+routers.get("/", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const searchKey = req.query.searchKey || "";
+    const result = await getAllOrders(page, limit, searchKey);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

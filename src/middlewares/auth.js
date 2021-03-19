@@ -20,7 +20,7 @@ const authMiddleware = (required) => {
           req.user = user._doc;
           next();
         })
-        .catch(() => {
+        .catch((error) => {
           res.status(401).send("User not found");
         });
     } catch {
@@ -32,4 +32,13 @@ const authMiddleware = (required) => {
     }
   };
 };
-module.exports = { authMiddleware };
+const authAdmin = () => {
+  return (req, res, next) => {
+    if (req.user.role === "ADMIN") {
+      next();
+    } else {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+  };
+};
+module.exports = { authMiddleware, authAdmin };
