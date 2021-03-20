@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const logger = require("morgan");
@@ -10,11 +11,10 @@ const cron = require("node-cron");
 const path = require("path");
 const exphbs = require("express-handlebars");
 const { changeOrderStatus } = require("./src/services/customer/order.services");
-
 const PORT = process.env.PORT || 4000;
 
 mongoose.connect(
-  "mongodb+srv://admin:Admin123@@cluster0.9m6f6.mongodb.net/eLibrary?retryWrites=true&w=majority",
+  process.env.MONGO_URI,
   {
     useUnifiedTopology: true,
     useNewUrlParser: true,

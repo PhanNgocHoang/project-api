@@ -6,9 +6,7 @@ const axios = require("axios");
 const User = require("../models/users.model");
 const gridMail = require("@sendgrid/mail");
 const generatePassword = require("generate-password");
-gridMail.setApiKey(
-  "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"
-);
+gridMail.setApiKey(process.env.MAIL_KEY);
 
 routers.get("/me", authMiddleware(true), (req, res, next) => {
   res.status(200).json(req.user);
@@ -224,6 +222,7 @@ routers.put("/changePassword", authMiddleware(true), async (req, res) => {
 });
 routers.put("/forgetPassword", async (req, res) => {
   try {
+    console.log(process.env.PAYPAL_CLIENT_ID);
     const bodySchema = joi
       .object({
         email: joi.string().required("Your Email is required"),
@@ -272,6 +271,8 @@ routers.put("/forgetPassword", async (req, res) => {
           .json({ message: "Please check your email to get password." });
       })
       .catch((err) => {
+        console.log(err);
+
         return res.status(500).json({ message: err.message });
       });
   } catch (error) {
