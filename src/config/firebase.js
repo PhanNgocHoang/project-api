@@ -1,5 +1,7 @@
 const admin = require("firebase-admin");
-const { firebase } = require("./config");
+const {
+  firebase,
+} = require("./e-library-705ec-firebase-adminsdk-rw603-c244dd2e2b.json");
 
 // Initialize firebase admin SDK
 admin.initializeApp({
