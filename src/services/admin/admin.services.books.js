@@ -96,7 +96,7 @@ module.exports.getBooks = async (
       .limit(perPage)
       .populate({ path: "authors", select: "authorName" })
       .populate({ path: "publisher", select: "publisherName" })
-      .populate({ path: " book_type", select: "type_name" })
+      .populate({ path: "book_type", select: "type_name" })
       .populate({ path: "userFavorite", select: "_id" });
     return { data: books, currentPage: page, totalItems: totalItems };
   } catch (error) {
