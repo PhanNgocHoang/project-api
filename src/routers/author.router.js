@@ -10,15 +10,20 @@ const {
   getAllAuthor,
 } = require("../services/admin/admin.services.author");
 const { authMiddleware, authAdmin } = require("../middlewares/auth");
-routers.get("/getAll", async (req, res, next) => {
-  try {
-    const authors = await getAllAuthor();
-    return res.status(200).json({ data: authors });
-  } catch (error) {
-    next(error);
-    return res.status(500).json({ message: error.message });
+routers.get(
+  "/getAll",
+  authMiddleware(true),
+  authAdmin(),
+  async (req, res, next) => {
+    try {
+      const authors = await getAllAuthor();
+      return res.status(200).json({ data: authors });
+    } catch (error) {
+      next(error);
+      return res.status(500).json({ message: error.message });
+    }
   }
-});
+);
 
 routers.get("/", async (req, res) => {
   try {

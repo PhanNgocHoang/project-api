@@ -6,6 +6,7 @@ const {
   totalPrice,
 } = require("../services/customer/order.services");
 const { findUserById, updateWallet } = require("../services/users");
+const { authAdmin } = require("../middlewares/auth");
 const join = require("joi");
 routers.post("/create", async (req, res) => {
   try {
@@ -40,7 +41,7 @@ routers.post("/create", async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
-routers.get("/", async (req, res) => {
+routers.get("/", authAdmin(), async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;

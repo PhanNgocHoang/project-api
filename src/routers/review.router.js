@@ -4,8 +4,8 @@ const {
   create,
   getReviewByBookId,
 } = require("../services/customer/reviews.servies");
-
-routers.post("/create", async (req, res) => {
+const { authMiddleware } = require("../middlewares/auth");
+routers.post("/create", authMiddleware(true), async (req, res) => {
   try {
     const reviewData = join.object({
       user: join.string().required(),

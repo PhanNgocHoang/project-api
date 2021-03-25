@@ -6,9 +6,7 @@ const axios = require("axios");
 const User = require("../models/users.model");
 const gridMail = require("@sendgrid/mail");
 const generatePassword = require("generate-password");
-gridMail.setApiKey(
-  "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"
-);
+gridMail.setApiKey(process.env.MAIL_KEY);
 
 routers.get("/me", authMiddleware(true), (req, res, next) => {
   res.status(200).json(req.user);

@@ -3,7 +3,7 @@ const Books = require("../../models/books.model");
 module.exports.createBooks = async (bookData) => {
   try {
     const books = new Books(bookData);
-    return books.save();
+    return await books.save();
   } catch (error) {
     throw new Error(error);
   }

@@ -18,7 +18,7 @@ routers.use("/author", authors);
 routers.use("/publisher", publisher);
 routers.use("/books", books);
 routers.use("/review", review);
-routers.use("/order", order);
+routers.use("/order", authMiddleware(true), order);
 routers.use("/payment", authMiddleware(true), payment);
 routers.use("/users", authMiddleware(true), authAdmin(true), users);
 routers.use("/dashboard", authMiddleware(true), authAdmin(true), dashboard);

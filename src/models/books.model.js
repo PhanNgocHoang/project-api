@@ -17,6 +17,7 @@ const BookSchema = new Schema(
       required: true,
       ref: "publishers",
     },
+    fileType: { type: String, required: true },
     status: { type: Boolean, required: true, default: true },
     price: { type: Number, required: true, default: 0 },
     description: { type: String, required: true },

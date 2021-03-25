@@ -1,7 +1,7 @@
 const routers = require("express").Router();
 const { getUsers } = require("../services/users");
-
-routers.get("/", async (req, res) => {
+const { authMiddleware, authAdmin } = require("../middlewares/auth");
+routers.get("/", authMiddleware(true), authAdmin(), async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;

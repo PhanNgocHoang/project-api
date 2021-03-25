@@ -2,7 +2,7 @@ const routers = require("express").Router();
 const join = require("joi");
 const {
   createBooks,
-  updateBooks,
+  updateBook,
   deleteBooks,
   findBooksById,
   findBooksByName,
@@ -77,6 +77,7 @@ routers.post(
         images: join.string().required(),
         file: join.string().required(),
         price: join.number().required(),
+        fileType: join.string().required(),
       });
       const newData = await bookData.validate(req.body);
       if (newData.error) {
@@ -101,22 +102,21 @@ routers.put(
   async (req, res, next) => {
     try {
       const bookData = join.object({
-        book_name: join
-          .string()
-          .pattern(new RegExp("^[a-zA-Z0-9 ]*$"))
-          .required(),
+        book_name: join.string().required(),
         authors: join.array().items(join.string()).required(),
+        fileType: join.string().required(),
         book_type: join.string().required(),
         publisher: join.string().required(),
         description: join.string().required(),
-        images: join.object().required(),
-        file: join.object().required(),
+        images: join.string().required(),
+        file: join.string().required(),
+        price: join.number().required(),
       });
       const newData = await bookData.validate(req.body);
       if (newData.error) {
         return res.status(400).json({ message: newData.error.message });
       }
-      await updateBook(req.params.authorId, newData.value);
+      await updateBook(req.params.bookId, newData.value);
       return res.status(200).json({ message: "Update Book successfully" });
     } catch (error) {
       return res.status(500).json({ message: error.message });
