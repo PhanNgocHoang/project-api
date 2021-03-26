@@ -12,7 +12,7 @@ const { changeOrderStatus } = require("./src/services/customer/order.services");
 const PORT = process.env.PORT || 4000;
 
 mongoose.connect(
-  process.env.MONGO_URI,
+  process.env.MONGO_URI
   {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -25,19 +25,7 @@ mongoose.connect(
   }
 );
 
-cron.schedule("0 0 * * *", async () => {
-  await changeOrderStatus();
-});
-cron.schedule("0 6 * * *", async () => {
-  await changeOrderStatus();
-});
-cron.schedule("0 12 * * *", async () => {
-  await changeOrderStatus();
-});
-cron.schedule("0 18 * * *", async () => {
-  await changeOrderStatus();
-});
-cron.schedule("0 23 * * *", async () => {
+cron.schedule("0 0,6,12,18,23 * * *", async () => {
   await changeOrderStatus();
 });
 app.use(passport.initialize());
