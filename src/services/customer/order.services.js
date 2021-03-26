@@ -28,7 +28,7 @@ module.exports.getOrderByUser = async (userId, page, limit) => {
 module.exports.changeOrderStatus = async () => {
   await Order.updateMany(
     {
-      endAt: { $lte: moment(new Date()).format("YYYY-MM-DD HH:MM").toString() },
+      endAt: { $lte: moment().format("YYYY-MM-DD HH:MM").toString() },
     },
     { status: false }
   );
