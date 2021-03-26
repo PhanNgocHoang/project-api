@@ -8,13 +8,11 @@ const routers = require("./src/routers/index");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const cron = require("node-cron");
-const gridMail = require("@sendgrid/mail");
 const { changeOrderStatus } = require("./src/services/customer/order.services");
 const PORT = process.env.PORT || 4000;
-gridMail.setApiKey(process.env.MAIL_KEY);
 
 mongoose.connect(
-  "mongodb+srv://admin:Admin123@@cluster0.9m6f6.mongodb.net/eLibrary?retryWrites=true&w=majority",
+  process.env.MONGO_URI,
   {
     useUnifiedTopology: true,
     useNewUrlParser: true,
