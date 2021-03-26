@@ -27,28 +27,20 @@ mongoose.connect(
   }
 );
 
-cron.schedule("0 0,6,12,18,23 * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   await changeOrderStatus();
-  gridMail
-    .send({
-      to: {
-        email: "hoangpn.dev@gmail.com",
-      },
-      templateId: "d-e4a7316604634d2cb081b67ede3f94ca",
-      dynamicTemplateData: {
-        displayName: new Date().toISOString(),
-      },
-      from: {
-        email: "hoangpn.dev@gmail.com",
-        name: "Admin",
-      },
-    })
-    .then(() => {
-      console.log("run cron");
-    })
-    .catch((err) => {
-      console.log("run cron err");
-    });
+});
+cron.schedule("0 6 * * *", async () => {
+  await changeOrderStatus();
+});
+cron.schedule("0 12 * * *", async () => {
+  await changeOrderStatus();
+});
+cron.schedule("0 18 * * *", async () => {
+  await changeOrderStatus();
+});
+cron.schedule("0 23 * * *", async () => {
+  await changeOrderStatus();
 });
 app.use(passport.initialize());
 app.use(passport.session());
