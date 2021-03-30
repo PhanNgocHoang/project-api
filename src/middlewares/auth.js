@@ -12,7 +12,6 @@ const authMiddleware = (required) => {
     const token = req.headers.authorization.split(" ")[1];
     try {
       const decideObj = verifyToken(token);
-
       const id = decideObj.id;
       User.findOne({ _id: id })
         .exec()
