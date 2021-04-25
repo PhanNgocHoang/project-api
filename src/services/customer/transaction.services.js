@@ -7,10 +7,13 @@ module.exports.create = async (data) => {
 module.exports.getTransaction = async (userId, limit, page) => {
   const query = Transaction.find({ userId: userId });
   const transactions = await query
+    .populate("userId")
     .skip((page - 1) * limit)
     .limit(limit)
     .sort({ _id: -1 });
-  const totalItems = await query.countDocuments();
+  const totalItems = await Transaction.find({
+    userId: userId,
+  }).countDocuments();
   return {
     data: transactions,
     totalItems: totalItems,

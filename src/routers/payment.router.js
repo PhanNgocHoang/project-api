@@ -39,8 +39,17 @@ routers.get("/history", async (req, res) => {
     const transactions = await getTransaction(user._id, limit, page);
     return res.status(200).json(transactions);
   } catch (error) {
-    console.log(error);
-
+    return res.status(500).json({ message: error.message });
+  }
+});
+routers.get("/history/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const transactions = await getTransaction(userId, limit, page);
+    return res.status(200).json(transactions);
+  } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 });
