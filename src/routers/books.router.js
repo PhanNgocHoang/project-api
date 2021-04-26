@@ -9,7 +9,6 @@ const {
   getBooks,
   favoriteBook,
   myBookFavorite,
-  findFavoriteBookById,
 } = require("../services/admin/admin.services.books");
 const {
   getOrderByUser,
@@ -183,7 +182,13 @@ routers.get(
         req.params.userId
       );
       if (order) {
-        return res.status(200).json({ data: order });
+        const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+        const orderTime = moment(order.endAt).format("YYYY-MM-DD HH:mm:ss");
+        if (moment(orderTime).isBefore(currentTime)) {
+          return res.status(400).json({ message: "Borrow has been expired" });
+        } else {
+          return res.status(200).json({ data: order });
+        }
       } else {
         return res
           .status(400)
