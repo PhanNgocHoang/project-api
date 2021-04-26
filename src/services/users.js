@@ -134,6 +134,14 @@ module.exports.totalUser = async () => {
   const total = await User.find({ role: "USER" }).countDocuments();
   return total;
 };
+module.exports.blockUser = async (userId) => {
+  const result = await User.updateOne({ _id: userId }, { status: false });
+  return result;
+};
+module.exports.unBlockUser = async (userId) => {
+  const result = await User.updateOne({ _id: userId }, { status: true });
+  return result;
+};
 passport.serializeUser((user, done) => {
   done(null, user);
 });
