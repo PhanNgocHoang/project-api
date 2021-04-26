@@ -8,10 +8,9 @@ const routers = require("./src/routers/index");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const cron = require("node-cron");
-const https = require("https");
 const { changeOrderStatus } = require("./src/services/customer/order.services");
 const PORT = process.env.PORT || 4000;
-
+app.use(cors());
 mongoose.connect(
   process.env.MONGO_URI,
   {
@@ -36,7 +35,6 @@ app.get("/", (req, res) => {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
 app.use(logger());
 app.use(routers);
 app.listen(PORT, () => {

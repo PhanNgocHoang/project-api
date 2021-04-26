@@ -107,3 +107,20 @@ module.exports.totalPrice = async () => {
   ]);
   return sum[0].total;
 };
+module.exports.expiredOrder = async (orderId) => {
+  try {
+    const order = await Order.findOne({ _id: orderId });
+    if (order) {
+      const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      const orderTime = moment(order.endAt).format("YYYY-MM-DD HH:mm:ss");
+      if (moment(orderTime).isBefore(currentTime)) {
+        await Order.updateOne({ _id: orderId }, { status: false });
+        return "Expired the book loan successfully";
+      } else {
+        return false;
+      }
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

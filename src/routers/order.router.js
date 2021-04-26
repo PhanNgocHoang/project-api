@@ -2,8 +2,7 @@ const routers = require("express").Router();
 const {
   createOrder,
   getAllOrders,
-  totalTime,
-  totalPrice,
+  expiredOrder,
 } = require("../services/customer/order.services");
 const { findUserById, updateWallet } = require("../services/users");
 const { authAdmin } = require("../middlewares/auth");
@@ -50,6 +49,19 @@ routers.get("/", authAdmin(), async (req, res) => {
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+});
+routers.post("/expiredOrder", authAdmin(), async (req, res) => {
+  try {
+    const order = await expiredOrder(req.body.orderId);
+    if (order === false) {
+      return res
+        .status(400)
+        .json({ message: "The book loan period has not yet expired." });
+    }
+    return res.status(200).json({ message: order });
+  } catch (error) {
+    throw new Error(error.message);
   }
 });
 

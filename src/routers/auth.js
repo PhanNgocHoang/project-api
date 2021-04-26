@@ -89,6 +89,12 @@ routers.post("/google", async (req, res) => {
     if (response.data) {
       const user = await AuthService.findUserByGoogleId(response.data.id);
       if (user != null) {
+        if (user.status === false) {
+          return res.status(400).json({
+            message:
+              "Your account has been block. Please contact for admin to be unblock",
+          });
+        }
         const token = AuthService.encodedToken(user.role, user.email, user._id);
         return res.status(200).json({ user: user, token: token });
       } else {
@@ -142,6 +148,14 @@ routers.post("/facebook", async (req, res) => {
     if (response.data) {
       const user = await AuthService.findUserByFacebookId(response.data.id);
       if (user != null) {
+        if (user.status === false) {
+          return res
+            .status(400)
+            .json({
+              message:
+                "Your account has been block. Please contact for admin to be unblock",
+            });
+        }
         const token = AuthService.encodedToken(user.role, user.email, user._id);
         return res.status(200).json({ user: user, token: token });
       }
