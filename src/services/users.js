@@ -66,11 +66,16 @@ module.exports.login = async (email, password) => {
     );
   } else if (user) {
     const result = await bcrypt.compare(password, user.password);
-    if (user && result == true) {
+    if (user && result == true && user.status === true) {
       return {
         userInfo: user,
         token: this.encodedToken(user.role, user.email, user._id),
       };
+    }
+    if (user && result == true && user.status === false) {
+      throw new Error(
+        "Your account has been block. Please contact with admin to be unblock"
+      );
     }
   } else {
     return undefined;

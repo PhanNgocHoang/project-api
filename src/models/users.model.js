@@ -22,6 +22,7 @@ const UserSchema = new Schema(
         "https://storage.googleapis.com/e-library-705ec.appspot.com/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png",
     },
     wallet: { type: Number, default: 0 },
+    status: { type: Boolean, default: true },
   },
   {
     timestamps: true,
@@ -29,5 +30,4 @@ const UserSchema = new Schema(
 );
 UserSchema.index({ "$**": "text" });
 const User = mongoose.model("users", UserSchema);
-
 module.exports = User;
