@@ -30,7 +30,7 @@ const fileFilterImages = (req, file, cb) => {
 };
 const uploadImage = multer({
   storage: storage,
-  limits: { fileSize: 1024 * 1024 * 10 },
+  limits: { fileSize: 1024 * 1024 * 5 },
   fileFilter: fileFilterImages,
 });
 const uploadPDF = multer({

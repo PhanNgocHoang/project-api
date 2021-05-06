@@ -222,7 +222,6 @@ routers.put("/changePassword", authMiddleware(true), async (req, res) => {
 });
 routers.put("/forgetPassword", async (req, res) => {
   try {
-    console.log(process.env.PAYPAL_CLIENT_ID);
     const bodySchema = joi
       .object({
         email: joi.string().required("Your Email is required"),

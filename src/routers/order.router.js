@@ -17,7 +17,7 @@ routers.post("/create", async (req, res) => {
       startedAt: join.date().required(),
       endAt: join.date().required(),
       price: join.number().required(),
-    });
+    }); 
     const newData = await orderData.validate(req.body);
     if (newData.error) {
       return res.status(400).json({ message: newData.error.message });
