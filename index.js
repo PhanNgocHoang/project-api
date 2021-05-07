@@ -10,7 +10,6 @@ const passport = require("passport");
 const cron = require("node-cron");
 const { changeOrderStatus } = require("./src/services/customer/order.services");
 const PORT = process.env.PORT || 4000;
-app.use(cors());
 mongoose.connect(
   process.env.MONGO_URI,
   {
@@ -24,7 +23,7 @@ mongoose.connect(
     console.log("Connection database successfully");
   }
 );
-
+app.use(cors());
 cron.schedule("0 0,6,12,18,23 * * *", async () => {
   await changeOrderStatus();
 });
