@@ -119,7 +119,7 @@ module.exports.updateMe = async (user, payLoad) => {
 };
 module.exports.getUsers = async (page, limit, searchKey) => {
   const users = await User.find({
-    email: { $regex: searchKey, $options: "mis" },
+    email: { $regex: searchKey, $options: "mis" }, role: "USER"
   })
     .skip(limit * (page - 1))
     .limit(limit)
