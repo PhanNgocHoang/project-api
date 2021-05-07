@@ -60,7 +60,7 @@ routers.post("/register", async (req, res, next) => {
         to: {
           email: userData.email,
         },
-        templateId: "d-e4a7316604634d2cb081b67ede3f94ca",
+        templateId: "d-11ec8e98a6874254a0a26003c7723024",
         dynamicTemplateData: {
           displayName: userData.displayName,
         },
@@ -115,7 +115,7 @@ routers.post("/google", async (req, res) => {
             to: {
               email: response.data.email,
             },
-            templateId: "d-e4a7316604634d2cb081b67ede3f94ca",
+            templateId: "d-11ec8e98a6874254a0a26003c7723024",
             dynamicTemplateData: {
               displayName: response.data.name,
             },
@@ -149,12 +149,10 @@ routers.post("/facebook", async (req, res) => {
       const user = await AuthService.findUserByFacebookId(response.data.id);
       if (user != null) {
         if (user.status === false) {
-          return res
-            .status(400)
-            .json({
-              message:
-                "Your account has been block. Please contact for admin to be unblock",
-            });
+          return res.status(400).json({
+            message:
+              "Your account has been block. Please contact for admin to be unblock",
+          });
         }
         const token = AuthService.encodedToken(user.role, user.email, user._id);
         return res.status(200).json({ user: user, token: token });
@@ -177,7 +175,7 @@ routers.post("/facebook", async (req, res) => {
             to: {
               email: response.data.email,
             },
-            templateId: "d-e4a7316604634d2cb081b67ede3f94ca",
+            templateId: "d-11ec8e98a6874254a0a26003c7723024",
             dynamicTemplateData: {
               displayName: response.data.name,
             },
@@ -268,7 +266,7 @@ routers.put("/forgetPassword", async (req, res) => {
         to: {
           email: user.email,
         },
-        templateId: "d-4bf79d04ca8c4b1b90b5a4a2f33a0df9",
+        templateId: "d-0fcb4b68b41c4378beba14fc70c2b5aa",
         dynamicTemplateData: {
           displayName: user.displayName,
           password: newPassword.toString(),
